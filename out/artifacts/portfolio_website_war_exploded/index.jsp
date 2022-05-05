@@ -39,9 +39,6 @@
       <div class="span4">
         <img alt="25x25" src="https://cf.shopee.tw/file/17f3879a1872099681d7b85101e187db_tn" />
       </div>
-      <div>
-        <%=session.getAttribute("account")%>
-      </div>
 
 
 

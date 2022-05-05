@@ -19,4 +19,10 @@
         insert into portfolio_website.user (account, password)
         values (#{account},#{password});
     </insert>
+
+    <select id="queryAccount" parameterType="string" resultType="string">
+        select portfolio_website.user.account
+        from portfolio_website.user
+        where account = #{account}
+    </select>
 </mapper>

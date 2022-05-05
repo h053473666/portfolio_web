@@ -25,4 +25,9 @@ public class UserServiceImpl implements UserService{
     public int signUp(User user) {
         return userMapper.signUp(user);
     }
+
+    @Override
+    public String queryAccount(String account) {
+        return userMapper.queryAccount(account);
+    }
 }

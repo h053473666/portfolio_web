@@ -1,6 +1,7 @@
 package com.alien.dao;
 
 import com.alien.pojo.User;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     //登入查詢
@@ -11,4 +12,6 @@ public interface UserMapper {
 
     //註冊
     int signUp (User user);
+
+    String queryAccount(@Param("account") String account);
 }

@@ -11,4 +11,6 @@ public interface UserService {
 
     //註冊
     int signUp (User user);
+
+    String queryAccount(String account);
 }
