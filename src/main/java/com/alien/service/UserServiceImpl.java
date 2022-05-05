@@ -7,7 +7,7 @@ public class UserServiceImpl implements UserService{
 
     private UserMapper userMapper;
 
-    public UserServiceImpl(UserMapper userMapper) {
+    public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
