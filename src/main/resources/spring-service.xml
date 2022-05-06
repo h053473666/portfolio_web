@@ -14,6 +14,10 @@
         <property name="userMapper" ref="userMapper"/>
     </bean>
 
+    <bean id="ProductServiceImpl" class="com.alien.service.ProductServiceImpl">
+        <property name="productMapper" ref="productMapper"/>
+    </bean>
+
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>

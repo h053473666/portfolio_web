@@ -95,6 +95,40 @@ public class UserController implements AccountSession{
         return "signup";
     }
 
+    @RequestMapping("/password")
+    public String password(HttpServletRequest request) {
+        //沒登入不能更改密碼
+        if (!haveAccountSession(request)) {
+            return "redirect:/";
+        }
+
+        return "password";
+    }
+
+    @RequestMapping("/updatePassword")
+    public String updatePassword(Model model,HttpServletRequest request, User user, String passwordNew, String passwordNewCheck) {
+        //沒登入不能更改密碼
+        if (!haveAccountSession(request)) {
+            return "redirect:/";
+        }
+        String account =(String) request.getSession().getAttribute("account");
+        user.setAccount(account);
+        account = userService.login(user);
+        if (!passwordNewCheck.equals(passwordNew)) {
+            model.addAttribute("msg", "輸入的密碼不同");
+            return "password";
+        } else if (account == null){
+            model.addAttribute("msg", "密碼錯誤");
+            return "password";
+        } else {
+            user.setPassword(passwordNew);
+            userService.updatePassword(user);
+            model.addAttribute("msg", "更改密碼成功");
+            return "password";
+        }
+
+    }
+
     @Override
     public boolean haveAccountSession(HttpServletRequest request) {
         if (request.getSession().getAttribute("account") == null) {

@@ -19,10 +19,12 @@
         %>
         <a href="${pageContext.request.contextPath}/user/signup">註冊</a>
         <a href="${pageContext.request.contextPath}/user/login">登入</a>
+
         <%
         } else {
         %>
         <%=session.getAttribute("account")%>
+        <a href="${pageContext.request.contextPath}/user/password">更改密碼</a>
         <a href="${pageContext.request.contextPath}/user/logout">登出</a>
         <%
           }
@@ -39,6 +41,11 @@
       <div class="span4">
         <img alt="25x25" src="https://cf.shopee.tw/file/17f3879a1872099681d7b85101e187db_tn" />
       </div>
+
+      <div class="span12">
+        <a href="${pageContext.request.contextPath}/product/fitness0042">商品</a>
+      </div>
+
 
 
 
