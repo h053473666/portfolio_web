@@ -15,6 +15,7 @@
     <mappers>
         <mapper class="com.alien.dao.UserMapper"/>
         <mapper class="com.alien.dao.ProductMapper"/>
+        <mapper class="com.alien.dao.SimilarMapper"/>
     </mappers>
 
 </configuration>

@@ -1,7 +1,7 @@
 package com.alien.controller;
 
+import com.alien.dao.SimilarMapper;
 import com.alien.pojo.Product;
-import com.alien.service.ProductService;
 import com.alien.service.SimilarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,28 +15,23 @@ import java.util.List;
 
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @Controller
-public class ProductController {
-
-    @Autowired
-    @Qualifier("ProductServiceImpl")
-    private ProductService productService;
+public class SimilarController {
 
     @Autowired
     @Qualifier("SimilarServiceImpl")
     private SimilarService similarService;
 
-    @RequestMapping("/product/{itemId}")
-    public String product(@PathVariable("itemId") String itemId, Model model) {
-        Product product = productService.queryProduct(itemId);
-        if (product == null) {
-            return "redirect:/";
-        }
-        model.addAttribute(product);
-
-        List<Product> similarProducts = similarService.querySimilar5(itemId);
+    @RequestMapping("/similar/{itemId}/{page}")
+    public String similar(@PathVariable("itemId") String itemId,@PathVariable("page") int page, Model model) {
+        List<Product> similarProducts = similarService.querySimilar(itemId);
+        List<Product> category180 = similarService.queryCategory180(similarProducts.get(0).getCategory());
+        int size = similarProducts.size();
+        category180 = category180.subList(0, 180 - size);
+        similarProducts.addAll(category180);
+        similarProducts = similarProducts.subList(page*60, (page+1) * 60);
         model.addAttribute("similarProducts", similarProducts);
+        return "similar";
 
-        return "product";
     }
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alien.dao.SimilarMapper">
+
+    <select id="querySimilar5" resultType="Product">
+        select portfolio_website.product.item_id, portfolio_website.product.name, portfolio_website.product.image, portfolio_website.product.price, portfolio_website.product.category, portfolio_website.product.sales_volume
+        from portfolio_website.product, portfolio_website.similar
+        where similar.item_id = #{itemId} and product.item_id = similar.similar
+        limit 5
+    </select>
+
+    <select id="queryCategory180" resultType="Product">
+        select portfolio_website.product.item_id, portfolio_website.product.name, portfolio_website.product.image, portfolio_website.product.price, portfolio_website.product.category, portfolio_website.product.sales_volume
+        from portfolio_website.product
+        where category = #{category}
+        limit 180
+    </select>
+
+    <select id="querySimilar" resultType="Product">
+        select portfolio_website.product.item_id, portfolio_website.product.name, portfolio_website.product.image, portfolio_website.product.price, portfolio_website.product.category,portfolio_website.product.sales_volume
+        from portfolio_website.product, portfolio_website.similar
+        where similar.item_id = #{itemId} and product.item_id = similar.similar
+
+    </select>
+
+</mapper>

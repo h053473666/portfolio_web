@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Title</title>
@@ -27,6 +28,19 @@
     <p>
         <image src="https://cf.shopee.tw/file/${product.image}_tn"></image>
     </p>
+
+    <c:forEach var="similarProduct" items="${similarProducts}">
+        <a href="${pageContext.request.contextPath}/product/${similarProduct.itemId}">
+            <img src="https://cf.shopee.tw/file/${similarProduct.image}_tn"></image>
+        </a>
+    </c:forEach>
+    <p>
+        <a href="${pageContext.request.contextPath}/similar/${product.itemId}/0">相似商品</a>
+    </p>
+
+
+
+
 
 
 
