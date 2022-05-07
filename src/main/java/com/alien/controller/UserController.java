@@ -36,7 +36,8 @@ public class UserController {
         String account = userService.login(user);
         //把帳號寫入session
         if (account != null) {
-            request.getSession().setAttribute("account",account);
+            accountSession.setTracking(request,null);
+            accountSession.setAccount(request,account);
             return "redirect:/";
         } else {
             return "login";
@@ -57,7 +58,8 @@ public class UserController {
             return "signup";
         }
         userService.signUp(user);
-        request.getSession().setAttribute("account",user.getAccount());
+        accountSession.setTracking(request,null);
+        accountSession.setAccount(request,user.getAccount());
 
 
         return "redirect:/";
@@ -71,7 +73,8 @@ public class UserController {
             return "redirect:/";
         }
         //清除帳號session
-        request.getSession().setAttribute("account",null);
+        accountSession.setAccount(request,null);
+        accountSession.setTracking(request,null);
         return "redirect:/user/login";
 
     }
@@ -112,7 +115,7 @@ public class UserController {
         if (!accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
-        String account =(String) request.getSession().getAttribute("account");
+        String account = accountSession.getAccount(request);
         user.setAccount(account);
         account = userService.login(user);
         if (!passwordNewCheck.equals(passwordNew)) {

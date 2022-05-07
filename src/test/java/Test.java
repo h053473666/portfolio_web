@@ -17,5 +17,6 @@ public class Test {
         for (String product : products3) {
             System.out.println(product);
         }
+
     }
 }

@@ -68,15 +68,4 @@ public class Product {
         this.salesVolume = salesVolume;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "itemId='" + itemId + '\'' +
-                ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", price=" + price +
-                ", category='" + category + '\'' +
-                ", salesVolume='" + salesVolume + '\'' +
-                '}';
-    }
 }

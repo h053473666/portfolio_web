@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alien.dao.ClickTrackingMapper">
+    <insert id="addTracking">
+        insert into portfolio_website.click_tracking (account, item_id)
+        values (#{account}, #{itemId});
+    </insert>
+
+    <delete id="deleteTracking">
+        delete
+        from portfolio_website.click_tracking
+        where account= #{account} and item_id = #{itemId};
+    </delete>
+
+    <select id="queryTracking" resultType="string">
+        select portfolio_website.click_tracking.item_id
+        from portfolio_website.click_tracking
+        where click_tracking.account = #{account}
+    </select>
+
+</mapper>

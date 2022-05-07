@@ -38,6 +38,10 @@
         <a href="${pageContext.request.contextPath}/similar/${product.itemId}/0">相似商品</a>
     </p>
 
+    <c:forEach var="tracking" items="${sessionScope.trankings}">
+        <span>${tracking}</span>
+    </c:forEach>
+
 
 
 
