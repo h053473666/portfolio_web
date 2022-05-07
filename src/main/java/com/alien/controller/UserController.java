@@ -1,5 +1,6 @@
 package com.alien.controller;
 
+import com.alien.pojo.Product;
 import com.alien.pojo.User;
 import com.alien.service.UserService;
 import com.alien.utils.AccountSession;
@@ -12,23 +13,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @Controller
 @RequestMapping("/user")
-public class UserController implements AccountSession{
+public class UserController {
 
     @Autowired
     @Qualifier("UserServiceImpl")
     private UserService userService;
-
+    private AccountSession accountSession = new AccountSession();
 
     @RequestMapping("/userlogin")
     public String userLogin(User user, HttpServletRequest request) {
 
         // 有登入session不能再登入
-        if (haveAccountSession(request)) {
+        if (accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
         // 驗證帳號密碼
@@ -47,7 +48,7 @@ public class UserController implements AccountSession{
     @RequestMapping("/usersignup")
     public String usersignup(User user, HttpServletRequest request, Model model) {
         //登入後不能註冊
-        if (haveAccountSession(request)) {
+        if (accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
         if (userService.queryAccount(user.getAccount()) != null) {
@@ -66,7 +67,7 @@ public class UserController implements AccountSession{
     @RequestMapping("/logout")
     public String logout(User user, HttpServletRequest request) {
         //沒登入不能登出
-        if (!haveAccountSession(request)) {
+        if (!accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
         //清除帳號session
@@ -79,7 +80,7 @@ public class UserController implements AccountSession{
     @RequestMapping("/login")
     public String login(HttpServletRequest request) {
         //登入後不能進入登入頁面
-        if (haveAccountSession(request)) {
+        if (accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
         return "login";
@@ -88,7 +89,7 @@ public class UserController implements AccountSession{
     @RequestMapping("/signup")
     public String signup(HttpServletRequest request) {
         //登入後不能註冊
-        if (haveAccountSession(request)) {
+        if (accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
 
@@ -98,7 +99,7 @@ public class UserController implements AccountSession{
     @RequestMapping("/password")
     public String password(HttpServletRequest request) {
         //沒登入不能更改密碼
-        if (!haveAccountSession(request)) {
+        if (!accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
 
@@ -108,7 +109,7 @@ public class UserController implements AccountSession{
     @RequestMapping("/updatePassword")
     public String updatePassword(Model model,HttpServletRequest request, User user, String passwordNew, String passwordNewCheck) {
         //沒登入不能更改密碼
-        if (!haveAccountSession(request)) {
+        if (!accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
         String account =(String) request.getSession().getAttribute("account");
@@ -129,12 +130,6 @@ public class UserController implements AccountSession{
 
     }
 
-    @Override
-    public boolean haveAccountSession(HttpServletRequest request) {
-        if (request.getSession().getAttribute("account") == null) {
-            return false;
-        }
-        return true;
-    }
+
 
 }

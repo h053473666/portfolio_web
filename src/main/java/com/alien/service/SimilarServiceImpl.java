@@ -18,12 +18,15 @@ public class SimilarServiceImpl implements SimilarService{
     }
 
     @Override
-    public List<Product> queryCategory180(String category) {
-        return similarMapper.queryCategory180(category);
+    public List<Product> querySimilar(String itemId, int page, String category) {
+        List<Product> similarProducts = similarMapper.querySimilar(itemId);
+        List<Product> category180 = similarMapper.queryCategory180(category);
+        int size = similarProducts.size();
+        category180 = category180.subList(0, 180 - size);
+        similarProducts.addAll(category180);
+        similarProducts = similarProducts.subList(page*60, (page+1) * 60);
+        return similarProducts;
     }
 
-    @Override
-    public List<Product> querySimilar(String itemId) {
-        return similarMapper.querySimilar(itemId);
-    }
+
 }

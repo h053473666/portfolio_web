@@ -27,14 +27,34 @@ public class ProductController {
 
     @RequestMapping("/product/{itemId}")
     public String product(@PathVariable("itemId") String itemId, Model model) {
+
+
+        //沒這商品ID 跳到404網頁
         Product product = productService.queryProduct(itemId);
         if (product == null) {
             return "redirect:/";
         }
         model.addAttribute(product);
 
+        //點擊追蹤
+
+        //是否登入
+
+        //如果有登入，寫入sql
+
+        //超過30個刪除一個追蹤
+
+        //沒登入寫入session
+
+        //超過30個刪除一個追蹤
+
+        //5個相似商品
         List<Product> similarProducts = similarService.querySimilar5(itemId);
         model.addAttribute("similarProducts", similarProducts);
+
+        //5個推薦商品
+
+
 
         return "product";
     }

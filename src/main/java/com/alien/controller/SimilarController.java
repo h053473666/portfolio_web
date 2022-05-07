@@ -2,6 +2,7 @@ package com.alien.controller;
 
 import com.alien.dao.SimilarMapper;
 import com.alien.pojo.Product;
+import com.alien.service.ProductService;
 import com.alien.service.SimilarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,14 +22,14 @@ public class SimilarController {
     @Qualifier("SimilarServiceImpl")
     private SimilarService similarService;
 
+    @Autowired
+    @Qualifier("ProductServiceImpl")
+    private ProductService productService;
+
     @RequestMapping("/similar/{itemId}/{page}")
     public String similar(@PathVariable("itemId") String itemId,@PathVariable("page") int page, Model model) {
-        List<Product> similarProducts = similarService.querySimilar(itemId);
-        List<Product> category180 = similarService.queryCategory180(similarProducts.get(0).getCategory());
-        int size = similarProducts.size();
-        category180 = category180.subList(0, 180 - size);
-        similarProducts.addAll(category180);
-        similarProducts = similarProducts.subList(page*60, (page+1) * 60);
+        String category = productService.queryProduct(itemId).getCategory();
+        List<Product> similarProducts = similarService.querySimilar(itemId, page,category);
         model.addAttribute("similarProducts", similarProducts);
         return "similar";
 

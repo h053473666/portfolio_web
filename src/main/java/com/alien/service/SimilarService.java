@@ -9,7 +9,5 @@ public interface SimilarService {
 
     List<Product> querySimilar5(String itemId);
 
-    List<Product> queryCategory180(String category);
-
-    List<Product> querySimilar(String itemId);
+    List<Product> querySimilar(String itemId, int page, String category);
 }

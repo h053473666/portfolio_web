@@ -2,9 +2,14 @@ package com.alien.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface AccountSession {
+public class AccountSession {
 
-    public boolean haveAccountSession(HttpServletRequest request);
+    public boolean haveAccountSession(HttpServletRequest request) {
+        if (request.getSession().getAttribute("account") == null) {
+            return false;
+        }
+        return true;
+    };
 
 
 }
