@@ -1,5 +1,6 @@
 package com.alien.controller;
 
+
 import com.alien.pojo.Product;
 import com.alien.service.RecommendService;
 import com.alien.utils.AccountSession;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -17,8 +19,7 @@ import java.util.Map;
 
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @Controller
-public class RecommendController {
-
+public class IndexController {
 
     @Autowired
     @Qualifier("RecommendServiceImpl")
@@ -26,10 +27,11 @@ public class RecommendController {
 
     AccountSession accountSession = new AccountSession();
 
-    @RequestMapping("/recommend/{recommendCacheIndex}/{page}")
-    public String recommend(HttpServletRequest request,@PathVariable("recommendCacheIndex") String recommendCacheIndex, @PathVariable("page") int page, Model model) {
-
-        if (accountSession.getRecommendCacheIndex(request)==null) {
+    @RequestMapping("/")
+    public String index(HttpServletRequest request, Model model) {
+        String recommendCacheIndex = accountSession.getRecommendCacheIndex(request);
+        model.addAttribute("msg","msg");
+        if (recommendCacheIndex==null) {
 
             accountSession.setRecommendCacheIndex(request, "0");
             accountSession.setRecommendCache(request);
@@ -39,19 +41,17 @@ public class RecommendController {
             accountSession.setRecommendCache(request, recommendCache);
             recommends = recommends.subList(0, 60);
             model.addAttribute("recommends", recommends);
-            return "redirect:/recommend/0/0";
+            return "index";
 
-        } else if (!accountSession.getRecommendCacheIndex(request).equals(recommendCacheIndex)) {
-            return "redirect:/recommend/" + accountSession.getRecommendCacheIndex(request) + "/0";
         } else {
             Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
             recommendCache.get(recommendCacheIndex);
             List<Product> recommends = recommendCache.get(recommendCacheIndex);
-            recommends = recommends.subList(60*page, 60*(page+1));
+            recommends = recommends.subList(0, 60);
             model.addAttribute("recommends", recommends);
-            return "recommend";
+            return "index";
         }
 
-    }
 
+    }
 }

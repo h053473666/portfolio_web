@@ -1,8 +1,13 @@
 package com.alien.utils;
 
+import com.alien.pojo.Product;
+
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AccountSession {
 
@@ -50,9 +55,28 @@ public class AccountSession {
         request.getSession().setAttribute("trankings",trankings);
     }
 
+    public String getRecommendCacheIndex(HttpServletRequest request) {
+        String recommendCacheIndex = (String) request.getSession().getAttribute("recommendCacheIndex");
+        return recommendCacheIndex;
+    }
 
+    public void setRecommendCacheIndex(HttpServletRequest request,String recommendCacheIndex) {
+        request.getSession().setAttribute("recommendCacheIndex", recommendCacheIndex);
+    }
 
+    public Map<String,List<Product>> getRecommendCache(HttpServletRequest request) {
+        Map<String,List<Product>> recommendCache = (Map<String,List<Product>>) request.getSession().getAttribute("recommendCache");
+        return recommendCache;
+    }
 
+    public void setRecommendCache(HttpServletRequest request) {
+        Map<String,List<Product>> recommendCache =new HashMap<>();
+        request.getSession().setAttribute("recommendCache", recommendCache);
+    }
+
+    public void setRecommendCache(HttpServletRequest request,Map<String,List<Product>> recommendCache) {
+        request.getSession().setAttribute("recommendCache", recommendCache);
+    }
 
 
 }

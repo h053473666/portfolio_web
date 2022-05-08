@@ -47,6 +47,10 @@
             <img src="https://cf.shopee.tw/file/${recommend.image}_tn"></image>
         </a>
     </c:forEach>
+    <p>
+        <a href="${pageContext.request.contextPath}/recommend/${recommendCacheIndex}/0">猜你喜歡</a>
+    </p>
+
 
 
 

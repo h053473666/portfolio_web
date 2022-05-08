@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @Controller
@@ -106,6 +108,31 @@ public class ProductController {
 
         //5個推薦商品
         List<Product> recommends = recommendService.queryRecommend(trackings);
+
+        String recommendCacheIndex = accountSession.getRecommendCacheIndex(request);
+        if (recommendCacheIndex == null) {
+            accountSession.setRecommendCacheIndex(request, "0");
+            accountSession.setRecommendCache(request);
+            Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
+            //Map<String, List<Product>> recommendCache =new HashMap<>();
+            recommendCache.put("0",recommends);
+            accountSession.setRecommendCache(request, recommendCache);
+        }  else if (recommendCacheIndex.equals("9")) {
+            accountSession.setRecommendCacheIndex(request, "0");
+            recommendCacheIndex = "0";
+            Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
+            recommendCache.put("0",recommends);
+            accountSession.setRecommendCache(request, recommendCache);
+        }   else {
+            int recommendCacheIndexInt = Integer.parseInt(recommendCacheIndex);
+            recommendCacheIndex = (recommendCacheIndexInt + 1) + "";
+            accountSession.setRecommendCacheIndex(request, recommendCacheIndex);
+            Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
+            recommendCache.put(recommendCacheIndex,recommends);
+            accountSession.setRecommendCache(request, recommendCache);
+
+        }
+        model.addAttribute("recommendCacheIndex", recommendCacheIndex);
 
         recommends = recommends.subList(0,5);
 

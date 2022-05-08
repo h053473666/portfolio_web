@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
   <head>
@@ -11,6 +12,7 @@
 
     <div>
       <%--導航--%>
+      ${msg}
       <div class="span4">
         <a href="https://github.com/h053473666/portfolio_website">github</a>
         <%
@@ -45,6 +47,12 @@
       <div class="span12">
         <a href="${pageContext.request.contextPath}/product/fitness0042">商品</a>
       </div>
+
+      <c:forEach var="recommend" items="${recommends}">
+        <a href="${pageContext.request.contextPath}/product/${recommend.itemId}">
+          <img src="https://cf.shopee.tw/file/${recommend.image}_tn"></image>
+        </a>
+      </c:forEach>
 
 
 
