@@ -9,5 +9,5 @@ public interface RecommendMapper {
 
     List<Product> queryRecommend(@Param("trackings") List<String> trackings);
 
-    List<Product> queryRank10(@Param("rank") int rank);
+    List<Product> queryRank10();
 }

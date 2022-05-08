@@ -3,6 +3,7 @@ package com.alien.controller;
 import com.alien.pojo.Product;
 import com.alien.service.ClickTrackingService;
 import com.alien.service.ProductService;
+import com.alien.service.RecommendService;
 import com.alien.service.SimilarService;
 import com.alien.utils.AccountSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @EnableAspectJAutoProxy(proxyTargetClass=true)
@@ -32,6 +34,10 @@ public class ProductController {
     @Qualifier("ClickTrackingServiceImpl")
     private ClickTrackingService clickTrackingService;
 
+    @Autowired
+    @Qualifier("RecommendServiceImpl")
+    private RecommendService recommendService;
+
     private AccountSession accountSession = new AccountSession();
 
     @RequestMapping("/product/{itemId}")
@@ -47,24 +53,28 @@ public class ProductController {
 
         //點擊追蹤
         //判斷是否登入
+        List<String> trackings = new ArrayList<String>();
         if (accountSession.haveAccountSession(request)) {
             //如果有登入，寫入sql
             String account = accountSession.getAccount(request);
-            List<String> trackings = clickTrackingService.queryTracking(account);
-            //如果追蹤裡有移除再寫入
+            trackings = clickTrackingService.queryTracking(account);
+            //如果追蹤裡有itemId移除再寫入
             if (trackings.contains(itemId)) {
+
                 clickTrackingService.deleteTracking(account,itemId);
                 clickTrackingService.addTracking(account,itemId);
             } else {
+
                 clickTrackingService.addTracking(account,itemId);
-                //如果超過30個移除最舊的
+                //如果超過30個itemId移除最舊的
                 if (trackings.size() >= 30) {
                     clickTrackingService.deleteTracking(account,trackings.get(0));
                 }
             }
+            trackings.add(itemId);
         } else {
             //沒登入寫入session
-            List<String> trackings = accountSession.getTracking(request);
+            trackings = accountSession.getTracking(request);
             //
             if (trackings != null) {
                 if (trackings.contains(itemId)) {
@@ -95,8 +105,11 @@ public class ProductController {
         model.addAttribute("similarProducts", similarProducts);
 
         //5個推薦商品
+        List<Product> recommends = recommendService.queryRecommend(trackings);
 
+        recommends = recommends.subList(0,5);
 
+        model.addAttribute("recommends", recommends);
 
         return "product";
     }

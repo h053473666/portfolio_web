@@ -17,6 +17,7 @@
         <mapper class="com.alien.dao.ProductMapper"/>
         <mapper class="com.alien.dao.SimilarMapper"/>
         <mapper class="com.alien.dao.ClickTrackingMapper"/>
+        <mapper class="com.alien.dao.RecommendMapper"/>
     </mappers>
 
 </configuration>

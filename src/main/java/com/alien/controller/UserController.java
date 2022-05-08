@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 
 @EnableAspectJAutoProxy(proxyTargetClass=true)
@@ -36,8 +37,11 @@ public class UserController {
         String account = userService.login(user);
         //把帳號寫入session
         if (account != null) {
-            accountSession.setTracking(request,null);
-            accountSession.setAccount(request,account);
+            Enumeration attributeNames = request.getSession().getAttributeNames();
+            while (attributeNames.hasMoreElements()) {
+                request.getSession().removeAttribute(attributeNames.nextElement().toString());
+            }
+            accountSession.setAccount(request,user.getAccount());
             return "redirect:/";
         } else {
             return "login";
@@ -58,7 +62,10 @@ public class UserController {
             return "signup";
         }
         userService.signUp(user);
-        accountSession.setTracking(request,null);
+        Enumeration attributeNames = request.getSession().getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            request.getSession().removeAttribute(attributeNames.nextElement().toString());
+        }
         accountSession.setAccount(request,user.getAccount());
 
 
@@ -73,8 +80,7 @@ public class UserController {
             return "redirect:/";
         }
         //清除帳號session
-        accountSession.setAccount(request,null);
-        accountSession.setTracking(request,null);
+        request.getSession().invalidate();
         return "redirect:/user/login";
 
     }

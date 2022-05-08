@@ -31,8 +31,8 @@ public class AccountSession {
         List<String> trankings = new ArrayList<String>();
         request.getSession().setAttribute("trankings",trankings);
     }
-    public void setTracking(HttpServletRequest request, Object o) {
-        request.getSession().setAttribute("trankings",o);
+    public void setTracking(HttpServletRequest request, List<String> trankings) {
+        request.getSession().setAttribute("trankings",trankings);
     }
 
     public void addTracking(HttpServletRequest request,String itemId, List<String> trankings) {

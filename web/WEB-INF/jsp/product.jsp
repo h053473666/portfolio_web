@@ -42,7 +42,11 @@
         <span>${tracking}</span>
     </c:forEach>
 
-
+    <c:forEach var="recommend" items="${recommends}">
+        <a href="${pageContext.request.contextPath}/product/${recommend.itemId}">
+            <img src="https://cf.shopee.tw/file/${recommend.image}_tn"></image>
+        </a>
+    </c:forEach>
 
 
 

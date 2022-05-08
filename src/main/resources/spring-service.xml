@@ -26,6 +26,10 @@
         <property name="clickTrackingMapper" ref="clickTrackingMapper"/>
     </bean>
 
+    <bean id="RecommendServiceImpl" class="com.alien.service.RecommendServiceImpl">
+        <property name="RecommendMapper" ref="recommendMapper"/>
+    </bean>
+
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>

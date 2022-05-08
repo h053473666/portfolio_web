@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alien.dao.RecommendMapper">
+    <select id="queryRecommend" resultType="Product">
+        select portfolio_website.product.item_id, portfolio_website.product.name, portfolio_website.product.image, portfolio_website.product.price, portfolio_website.product.category,portfolio_website.product.sales_volume
+        from portfolio_website.similar, portfolio_website.product
+        where 
+            <foreach collection="trackings" item="itemId" open="(" close=")" separator="or">
+                similar.item_id = #{itemId}
+            </foreach>
+        and product.item_id = similar.similar
+        group by product.item_id;
+    </select>
+
+    <select id="queryRank10" resultType="Product">
+        select portfolio_website.product.item_id, portfolio_website.product.name, portfolio_website.product.image, portfolio_website.product.price, portfolio_website.product.category,portfolio_website.product.sales_volume
+        from portfolio_website.product
+        where sort_by_rank &lt;= 10
+    </select>
+
+</mapper>
