@@ -41,7 +41,7 @@ public class RecommendController {
             model.addAttribute("recommends", recommends);
             return "redirect:/recommend/0/0";
 
-        } else if (!accountSession.getRecommendCacheIndex(request).equals(recommendCacheIndex)) {
+        } else if (accountSession.getRecommendCache(request).get(recommendCacheIndex) == null) {
             return "redirect:/recommend/" + accountSession.getRecommendCacheIndex(request) + "/0";
         } else {
             Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);

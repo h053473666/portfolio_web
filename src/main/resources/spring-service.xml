@@ -30,6 +30,14 @@
         <property name="RecommendMapper" ref="recommendMapper"/>
     </bean>
 
+    <bean id="CartServiceImpl" class="com.alien.service.CartServiceImpl">
+        <property name="CartMapper" ref="cartMapper"/>
+    </bean>
+
+    <bean id="SearchServiceImpl" class="com.alien.service.SearchServiceImpl">
+        <property name="searchMapper" ref="searchMapper"/>
+    </bean>
+
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>

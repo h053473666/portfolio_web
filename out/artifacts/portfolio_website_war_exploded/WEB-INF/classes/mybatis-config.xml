@@ -18,6 +18,8 @@
         <mapper class="com.alien.dao.SimilarMapper"/>
         <mapper class="com.alien.dao.ClickTrackingMapper"/>
         <mapper class="com.alien.dao.RecommendMapper"/>
+        <mapper class="com.alien.dao.CartMapper"/>
+        <mapper class="com.alien.dao.SearchMapper"/>
     </mappers>
 
 </configuration>

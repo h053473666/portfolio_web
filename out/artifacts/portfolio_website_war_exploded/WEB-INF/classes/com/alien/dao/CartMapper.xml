@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alien.dao.CartMapper">
+
+    <insert id="addCart">
+        insert into portfolio_website.cart (account, item_id, purchase_volume)
+        values (#{account},#{itemId}, #{purchaseVolume});
+    </insert>
+
+    <insert id="addPurchase">
+        insert into portfolio_website.purchase (account, item_id, purchase_volume)
+        values (#{account},#{itemId}, #{purchaseVolume});
+    </insert>
+
+    <insert id="addCartPurchase">
+        insert into portfolio_website.purchase (account, item_id, purchase_volume)
+        values
+        <foreach collection="carts" item="cart" separator=",">
+            (#{account}, #{itemId}, #{purchaseVolume})
+        </foreach>;
+    </insert>
+
+    <delete id="deleteCart">
+        delete
+        from portfolio_website.cart
+        where
+        <foreach collection="itemIds" item="itemId" open="(" close=")" separator="or">
+            cart.item_id = #{itemId}
+        </foreach>
+        and account = #{account};
+    </delete>
+
+    <select id="queryCart">
+        select account, product.item_id, name, image,price,category,sales_volume,purchase_volume
+        from portfolio_website.cart, portfolio_website.product
+        where account = #{account} and product.item_id = cart.item_id;
+    </select>
+
+    <select id="queryPurchase">
+        select account, product.item_id, name, image,price,category,sales_volume,purchase_volume
+        from portfolio_website.purchase, portfolio_website.product
+        where account = #{account} and product.item_id = purchase.item_id
+        limit #{limit}, 5;
+    </select>
+
+</mapper>

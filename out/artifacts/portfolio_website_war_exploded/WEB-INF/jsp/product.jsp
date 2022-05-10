@@ -41,7 +41,33 @@
     <c:forEach var="tracking" items="${sessionScope.trankings}">
         <span>${tracking}</span>
     </c:forEach>
+    <form action="/cart/addcart" method="post" class="form-horizontal">
+        <input type="hidden" name="account" value=${sessionScope.account}>
+        <input type="hidden" name="itemId" value=${product.itemId}>
+        <select name="purchaseVolume">
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4>4</option>
+            <option value=5>5</option>
+        </select>
+        <input type="submit" value="加到購物車"/>
 
+    </form>
+
+    <form action="/cart/addpurchase" method="post" class="form-horizontal">
+        <input type="hidden" name="account" value=${sessionScope.account}>
+        <input type="hidden" name="itemId" value=${product.itemId}>
+        <select name="purchaseVolume">
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4>4</option>
+            <option value=5>5</option>
+        </select>
+        <input type="submit" value="加到購物車"/>
+
+    </form>
     <c:forEach var="recommend" items="${recommends}">
         <a href="${pageContext.request.contextPath}/product/${recommend.itemId}">
             <img src="https://cf.shopee.tw/file/${recommend.image}_tn"></image>
