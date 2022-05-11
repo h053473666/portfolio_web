@@ -2,6 +2,7 @@ package com.alien.controller;
 
 
 import com.alien.pojo.Product;
+import com.alien.service.ClickTrackingService;
 import com.alien.service.RecommendService;
 import com.alien.utils.AccountSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,29 @@ public class IndexController {
     @Qualifier("RecommendServiceImpl")
     private RecommendService recommendService;
 
+    @Autowired
+    @Qualifier("ClickTrackingServiceImpl")
+    private ClickTrackingService clickTrackingService;
+
     AccountSession accountSession = new AccountSession();
 
     @RequestMapping("/")
     public String index(HttpServletRequest request, Model model) {
         String recommendCacheIndex = accountSession.getRecommendCacheIndex(request);
-        model.addAttribute("msg","msg");
-        if (recommendCacheIndex==null) {
 
+
+
+        if (recommendCacheIndex==null) {
+            String account = accountSession.getAccount(request);
+            if (account != null ) {
+                List<String> trackings = clickTrackingService.queryTracking(account);
+                if (!trackings.isEmpty()) {
+                    List<Product> recommends = recommendService.queryRecommend(trackings);
+                    recommends = recommends.subList(0, 60);
+                    model.addAttribute("recommends", recommends);
+                    return "index";
+                }
+            }
             accountSession.setRecommendCacheIndex(request, "0");
             accountSession.setRecommendCache(request);
             Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);

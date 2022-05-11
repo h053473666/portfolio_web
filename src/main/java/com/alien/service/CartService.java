@@ -13,7 +13,7 @@ public interface CartService {
 
     int addCartPurchase( List<Cart> carts);
 
-    int deleteCart(List<String> itemIds, String account);
+    int deleteCart(List<Cart> carts, String account);
 
     List<Cart> queryCart(String account);
 

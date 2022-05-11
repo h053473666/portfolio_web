@@ -62,18 +62,20 @@ public class ProductController {
             trackings = clickTrackingService.queryTracking(account);
             //如果追蹤裡有itemId移除再寫入
             if (trackings.contains(itemId)) {
-
+                trackings.remove(itemId);
+                trackings.add(itemId);
                 clickTrackingService.deleteTracking(account,itemId);
                 clickTrackingService.addTracking(account,itemId);
             } else {
-
+                trackings.add(itemId);
                 clickTrackingService.addTracking(account,itemId);
                 //如果超過30個itemId移除最舊的
-                if (trackings.size() >= 30) {
+                if (trackings.size() > 30) {
                     clickTrackingService.deleteTracking(account,trackings.get(0));
+                    trackings.remove(0);
                 }
             }
-            trackings.add(itemId);
+
         } else {
             //沒登入寫入session
             trackings = accountSession.getTracking(request);
@@ -87,7 +89,7 @@ public class ProductController {
                 } else {
                     accountSession.addTracking(request,itemId,trackings);
                     //如果超過30個移除最舊的
-                    if (trackings.size() >= 30) {
+                    if (trackings.size() > 30) {
                         accountSession.deleteTracking(request,0,trackings);
                     }
                 }
@@ -101,12 +103,12 @@ public class ProductController {
 
         }
 
-
         //5個相似商品
         List<Product> similarProducts = similarService.querySimilar5(itemId);
         model.addAttribute("similarProducts", similarProducts);
 
         //5個推薦商品
+
         List<Product> recommends = recommendService.queryRecommend(trackings);
 
         String recommendCacheIndex = accountSession.getRecommendCacheIndex(request);

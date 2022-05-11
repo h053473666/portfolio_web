@@ -39,7 +39,7 @@
         <form class="form-search">
           <input class="input-medium search-query" type="text" /> <button type="submit" class="btn">查找</button>
         </form>
-        <a href="#">cart</a>
+        <a href="${pageContext.request.contextPath}/cart">cart</a>
       </div>
       <div class="span4">
         <img alt="25x25" src="https://cf.shopee.tw/file/17f3879a1872099681d7b85101e187db_tn" />

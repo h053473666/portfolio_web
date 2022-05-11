@@ -13,7 +13,7 @@ public interface CartMapper {
 
     int addCartPurchase(@Param("carts") List<Cart> carts);
 
-    int deleteCart(@Param("itemIds") List<String> itemIds, @Param("account") String account);
+    int deleteCart(@Param("carts") List<Cart> carts, @Param("account") String account);
 
     List<Cart> queryCart(@Param("account") String account);
 

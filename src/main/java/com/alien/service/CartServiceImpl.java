@@ -2,6 +2,7 @@ package com.alien.service;
 
 import com.alien.dao.CartMapper;
 import com.alien.pojo.Cart;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -29,8 +30,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public int deleteCart(List<String> itemIds, String account) {
-        return cartMapper.deleteCart(itemIds,account);
+    public int deleteCart(List<Cart> carts, String account) {
+        return cartMapper.deleteCart(carts,account);
     }
 
     @Override

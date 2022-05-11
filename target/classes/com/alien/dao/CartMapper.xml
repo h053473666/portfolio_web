@@ -18,7 +18,7 @@
         insert into portfolio_website.purchase (account, item_id, purchase_volume)
         values
         <foreach collection="carts" item="cart" separator=",">
-            (#{account}, #{itemId}, #{purchaseVolume})
+            (#{cart.account}, #{cart.itemId}, #{cart.purchaseVolume})
         </foreach>;
     </insert>
 
@@ -26,19 +26,19 @@
         delete
         from portfolio_website.cart
         where
-        <foreach collection="itemIds" item="itemId" open="(" close=")" separator="or">
-            cart.item_id = #{itemId}
+        <foreach collection="carts" item="cart" open="(" close=")" separator="or">
+            cart.item_id = #{cart.itemId}
         </foreach>
         and account = #{account};
     </delete>
 
-    <select id="queryCart">
+    <select id="queryCart" resultType="Cart">
         select account, product.item_id, name, image,price,category,sales_volume,purchase_volume
         from portfolio_website.cart, portfolio_website.product
         where account = #{account} and product.item_id = cart.item_id;
     </select>
 
-    <select id="queryPurchase">
+    <select id="queryPurchase" resultType="Cart">
         select account, product.item_id, name, image,price,category,sales_volume,purchase_volume
         from portfolio_website.purchase, portfolio_website.product
         where account = #{account} and product.item_id = purchase.item_id
