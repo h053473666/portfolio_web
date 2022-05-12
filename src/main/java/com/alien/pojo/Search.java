@@ -5,7 +5,7 @@ public class Search {
 
     private String category;
 
-    private String oderBy;
+    private String orderBy;
 
     private String orderType;
 
@@ -14,13 +14,26 @@ public class Search {
     public Search() {
     }
 
-    public Search(String name, String category, String oderBy, String orderType, int limit) {
+    public Search(String name) {
+        this.name = name;
+    }
+
+    public Search(String name, String category, String orderBy, String orderType, int limit) {
         this.name = name;
         this.category = category;
-        this.oderBy = oderBy;
+        this.orderBy = orderBy;
         this.orderType = orderType;
         this.limit = limit;
     }
+
+    public Search(String name, String orderBy, String orderType, int limit) {
+        this.name = name;
+        this.orderBy = orderBy;
+        this.orderType = orderType;
+        this.limit = limit;
+    }
+
+
 
     public String getName() {
         return name;
@@ -38,12 +51,12 @@ public class Search {
         this.category = category;
     }
 
-    public String getOderBy() {
-        return oderBy;
+    public String getOrderBy() {
+        return orderBy;
     }
 
-    public void setOderBy(String oderBy) {
-        this.oderBy = oderBy;
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
     }
 
     public String getOrderType() {

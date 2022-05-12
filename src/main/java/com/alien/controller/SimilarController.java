@@ -1,6 +1,5 @@
 package com.alien.controller;
 
-import com.alien.dao.SimilarMapper;
 import com.alien.pojo.Product;
 import com.alien.service.ProductService;
 import com.alien.service.SimilarService;

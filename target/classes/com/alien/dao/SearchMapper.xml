@@ -6,20 +6,20 @@
     <select id="queryProductBySearch" resultType="Product">
         select item_id,name,item_id, name, image, price, category, sales_volume
         from portfolio_website.product
-        <trim prefix="where" prefixOverrides="and|or">
-        <if test="name != null">
-                product.name like concat('%', #{name}, '%')
+        <trim prefix="where" prefixOverrides="and">
+            <if test="search.name != null">
+                product.name like concat('%', #{search.name}, '%')
             </if>
 
-            <if test="category != null">
-                and product.category = #{category}
+            <if test="search.category != null">
+                product.category = #{search.category}
             </if>
         </trim>
 
-        <if test="orderBy != null and orderType">
-            order by ${orderBy} ${orderType}
+        <if test="search.orderBy != null and search.orderType">
+            order by ${search.orderBy} ${search.orderType}
         </if>
-        limit #{limit}, 180
+        limit #{search.limit}, 180
 
     </select>
 
