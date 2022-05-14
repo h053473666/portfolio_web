@@ -39,6 +39,7 @@ public class RecommendController {
             accountSession.setRecommendCache(request, recommendCache);
             recommends = recommends.subList(0, 60);
             model.addAttribute("recommends", recommends);
+            model.addAttribute("page",page);
             return "redirect:/recommend/0/0";
 
         } else if (accountSession.getRecommendCache(request).get(recommendCacheIndex) == null) {
@@ -49,6 +50,7 @@ public class RecommendController {
             List<Product> recommends = recommendCache.get(recommendCacheIndex);
             recommends = recommends.subList(60*page, 60*(page+1));
             model.addAttribute("recommends", recommends);
+            model.addAttribute("page",page);
             return "recommend";
         }
 

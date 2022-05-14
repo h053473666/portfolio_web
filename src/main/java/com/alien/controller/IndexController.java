@@ -34,18 +34,22 @@ public class IndexController {
     public String index(HttpServletRequest request, Model model) {
         String recommendCacheIndex = accountSession.getRecommendCacheIndex(request);
 
-
-
         if (recommendCacheIndex==null) {
             String account = accountSession.getAccount(request);
             if (account != null ) {
                 List<String> trackings = clickTrackingService.queryTracking(account);
                 if (!trackings.isEmpty()) {
+                    accountSession.setRecommendCacheIndex(request, "0");
+                    accountSession.setRecommendCache(request);
+                    Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
                     List<Product> recommends = recommendService.queryRecommend(trackings);
+                    recommendCache.put("0",recommends);
+                    accountSession.setRecommendCache(request, recommendCache);
                     recommends = recommends.subList(0, 60);
                     model.addAttribute("recommends", recommends);
                     return "index";
                 }
+
             }
             accountSession.setRecommendCacheIndex(request, "0");
             accountSession.setRecommendCache(request);

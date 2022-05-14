@@ -30,6 +30,8 @@ public class SimilarController {
         String category = productService.queryProduct(itemId).getCategory();
         List<Product> similarProducts = similarService.querySimilar(itemId, page,category);
         model.addAttribute("similarProducts", similarProducts);
+        model.addAttribute("page",page);
+        model.addAttribute("itemId",itemId);
         return "similar";
 
     }
