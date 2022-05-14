@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @Controller
@@ -29,22 +31,21 @@ public class SearchController {
     public String inputSearch(Search search) throws UnsupportedEncodingException {
         String name = search.getName();
         name = java.net.URLEncoder.encode(name,"UTF-8");
-        System.out.println(name);
         String url = "redirect:/search/"+name+"/rank/asc/0";
 
-        System.out.println(url);
         return url;
     }
 
     @RequestMapping("/search/{name}/{orderBy}/{orderType}/{page}")
     public String searchByName(Model model, @PathVariable("name") String name, @PathVariable("orderBy") String orderBy, @PathVariable("orderType") String orderType,@PathVariable("page") int page) {
 
+        String databaseOrderBy = null;
         if (orderBy.equals("rank")) {
-            orderBy = "sort_by_rank";
+            databaseOrderBy = "sort_by_rank";
         } else if (orderBy.equals("price")) {
-            orderBy = "price";
+            databaseOrderBy = "price";
         } else if (orderBy.equals("sales")) {
-            orderBy = "sales_volume";
+            databaseOrderBy = "sales_volume";
         }
 
         if (orderType.equals("asc")) {
@@ -53,9 +54,19 @@ public class SearchController {
             orderType = "desc";
         }
 
-        Search search = new Search(name,orderBy,orderType,page*60);
+        Search search = new Search(name,databaseOrderBy,orderType,page*60);
         List<Product> products = searchService.queryProductBySearch(search);
-//        products = products.subList(0,60);
+        if (products.size() >=60) {
+            products = products.subList(0,60);
+        }
+        try {
+            name = java.net.URLDecoder.decode(name,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("searchName", name);
+        model.addAttribute("orderBy", orderBy);
+        model.addAttribute("orderByType", orderType);
         model.addAttribute("products", products);
         return "search";
     }
@@ -64,13 +75,15 @@ public class SearchController {
 
     @RequestMapping("/category/{category}/{orderBy}/{orderType}/{page}")
     public String searchByCategory(Model model, @PathVariable("category") String category, @PathVariable("orderBy") String orderBy, @PathVariable("orderType") String orderType,@PathVariable("page") int page) {
+        String databaseOrderBy = null;
         if (orderBy.equals("rank")) {
-            orderBy = "sort_by_rank";
+            databaseOrderBy = "sort_by_rank";
         } else if (orderBy.equals("price")) {
-            orderBy = "price";
+            databaseOrderBy = "price";
         } else if (orderBy.equals("sales")) {
-            orderBy = "sales_volume";
+            databaseOrderBy = "sales_volume";
         }
+
 
         if (orderType.equals("asc")) {
             orderType = "asc";
@@ -78,9 +91,12 @@ public class SearchController {
             orderType = "desc";
         }
 
-        Search search = new Search(null,category,orderBy,orderType,page*60);
+        Search search = new Search(null,category,databaseOrderBy,orderType,page*60);
         List<Product> products = searchService.queryProductBySearch(search);
         products = products.subList(0,60);
+        model.addAttribute("category", category);
+        model.addAttribute("orderBy", orderBy);
+        model.addAttribute("orderByType", orderType);
         model.addAttribute("products", products);
         return "search";
     }
