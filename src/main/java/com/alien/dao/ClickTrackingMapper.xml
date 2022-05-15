@@ -15,9 +15,9 @@
     </delete>
 
     <select id="queryTracking" resultType="string">
-        select portfolio_website.click_tracking.item_id
+        select item_id
         from portfolio_website.click_tracking
-        where click_tracking.account = #{account}
+        where account = #{account}
     </select>
 
 </mapper>

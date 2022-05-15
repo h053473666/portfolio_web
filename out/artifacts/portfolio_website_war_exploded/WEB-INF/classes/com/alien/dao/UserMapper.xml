@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alien.dao.UserMapper">
     <select id="login" parameterType="User" resultType="string">
-        select portfolio_website.user.account
+        select account
         from portfolio_website.user
         where account = #{account} and password = #{password}
     </select>
@@ -21,7 +21,7 @@
     </insert>
 
     <select id="queryAccount" parameterType="string" resultType="string">
-        select portfolio_website.user.account
+        select account
         from portfolio_website.user
         where account = #{account}
     </select>

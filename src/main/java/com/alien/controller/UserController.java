@@ -26,7 +26,7 @@ public class UserController {
     private UserService userService;
     private AccountSession accountSession = new AccountSession();
 
-    @RequestMapping("/userlogin")
+    @RequestMapping("/userLogin")
     public String userLogin(User user, HttpServletRequest request) {
 
         // 有登入session不能再登入
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @Transactional
-    @RequestMapping("/usersignup")
+    @RequestMapping("/userSignup")
     public String usersignup(User user, HttpServletRequest request, Model model) {
         //登入後不能註冊
         if (accountSession.haveAccountSession(request)) {
@@ -139,6 +139,10 @@ public class UserController {
 
     }
 
+    @RequestMapping("/purchase")
+    public String purchase() {
+        return "purchase";
+    }
 
 
 }

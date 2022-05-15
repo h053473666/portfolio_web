@@ -31,6 +31,7 @@ public class SearchController {
     public String inputSearch(Search search) throws UnsupportedEncodingException {
         String name = search.getName();
         name = java.net.URLEncoder.encode(name,"UTF-8");
+
         String url = "redirect:/search/"+name+"/rank/asc/0";
 
         return url;
@@ -53,17 +54,18 @@ public class SearchController {
         } else if(orderType.equals("desc")) {
             orderType = "desc";
         }
+        try {
+            name = java.net.URLDecoder.decode(name,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         Search search = new Search(name,databaseOrderBy,orderType,page*60);
         List<Product> products = searchService.queryProductBySearch(search);
         if (products.size() >=60) {
             products = products.subList(0,60);
         }
-        try {
-            name = java.net.URLDecoder.decode(name,"UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+
         model.addAttribute("searchName", name);
         model.addAttribute("orderBy", orderBy);
         model.addAttribute("orderByType", orderType);

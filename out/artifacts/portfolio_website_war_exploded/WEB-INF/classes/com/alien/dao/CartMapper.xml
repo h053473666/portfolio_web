@@ -33,13 +33,13 @@
     </delete>
 
     <select id="queryCart" resultType="Cart">
-        select account, product.item_id, name, image,price,category,sales_volume,purchase_volume
+        select cart.account, product.item_id, product.name, product.image, product.price, product.category, product.sales_volume, cart.purchase_volume
         from portfolio_website.cart, portfolio_website.product
-        where account = #{account} and product.item_id = cart.item_id;
+        where cart.account = #{account} and product.item_id = cart.item_id;
     </select>
 
     <select id="queryPurchase" resultType="Cart">
-        select account, product.item_id, name, image,price,category,sales_volume,purchase_volume
+        select purchase.account, product.item_id, product.name, product.image, product.price, product.category, product.sales_volume, purchase.purchase_volume
         from portfolio_website.purchase, portfolio_website.product
         where account = #{account} and product.item_id = purchase.item_id
         limit #{limit}, 5;
