@@ -10,9 +10,33 @@
     <link rel="stylesheet" data-modern="true" href="/static/css/bundle.985608fa4d1c10176abe.css">
     <style data-modern="true" data-href="/static/css/1540.2f8bafdc9fcc811f0ee0.css"></style>
     <link rel="stylesheet" type="text/css" href="/static/css/8257.5874ac0691e6dfacfa09.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <link href="/static/css/disappearMsg.css" rel="stylesheet">
+    <script>
+        function addPurchase() {
+            document.productForm.action = "${pageContext.request.contextPath}/cart/addPurchase";
+            document.productForm.submit();
+        }
+
+        function addCart(){
+            document.productForm.action="${pageContext.request.contextPath}/cart/addCart";
+            document.productForm.submit();
+        }
+
+        function alertDisappearMsg(msg) {
+            $('#disappearMsg').html(msg);
+            $('#disappearMsg').show();
+            setTimeout(function () {
+                $('#disappearMsg').html('');
+                $('#disappearMsg').hide();
+            }, 2000);
+        }
+    </script>
 
 </head>
 <body class="nt-s nl-l">
+
+
 
 <div id="main">
     <div>
@@ -64,22 +88,26 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="PMuAq5">
-                                                            <div class="flex flex-column">
-                                                                <div class="flex hInOdW -+gikn">
-                                                                    <div class="flex flex-column">
-                                                                        <div class="flex items-center G2C2rT">
-                                                                            <div class="_0b8hHE">數量</div>
-                                                                            <div class="flex items-center">
-                                                                                <div style="margin-right: 15px;">
-                                                                                    <div class="_8cX-em shopee-input-quantity">
-                                                                                        <select name="purchaseVolume" class="ZBzFwL" style="width: 62px;padding-left: 15px;">
-                                                                                            <option value=1>1</option>
-                                                                                            <option value=2>2</option>
-                                                                                            <option value=3>3</option>
-                                                                                            <option value=4>4</option>
-                                                                                            <option value=5>5</option>
-                                                                                        </select>
+                                                        <form name="productForm" method="post">
+                                                            <div class="PMuAq5">
+                                                                <div class="flex flex-column">
+                                                                    <div class="flex hInOdW -+gikn">
+                                                                        <div class="flex flex-column">
+                                                                            <div class="flex items-center G2C2rT">
+                                                                                <div class="_0b8hHE">數量</div>
+                                                                                <div class="flex items-center">
+                                                                                    <div style="margin-right: 15px;">
+                                                                                        <div class="_8cX-em shopee-input-quantity">
+                                                                                            <select name="purchaseVolume" class="ZBzFwL" style="width: 62px;padding-left: 15px;">
+                                                                                                <option value=1>1</option>
+                                                                                                <option value=2>2</option>
+                                                                                                <option value=3>3</option>
+                                                                                                <option value=4>4</option>
+                                                                                                <option value=5>5</option>
+                                                                                            </select>
+                                                                                            <input type="hidden" name="account" value=${sessionScope.account}>
+                                                                                            <input type="hidden" name="itemId" value=${product.itemId}>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -87,15 +115,16 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div style="margin-top: 15px;">
-                                                            <div class="vdf0Mi">
-                                                                <div class="OozJX2">
-                                                                    <button type="button" class="btn btn-solid-primary btn--l GfiOwy" aria-disabled="false" style="background: rgba(255,87,34,.1);position: relative;overflow: visible;outline: 0;background: var(--brand-primary-light-color);color: var(--brand-primary-color);margin-left: 20px;margin-right: 15px;}">加入購物車</button>
-                                                                    <button type="button" class="btn btn-solid-primary btn--l GfiOwy" aria-disabled="false">直接購買</button>
+                                                            <div style="margin-top: 15px;">
+                                                                <div class="vdf0Mi">
+                                                                    <div class="OozJX2">
+                                                                        <button type="button" onclick="addCart()" class="btn btn-solid-primary btn--l GfiOwy" aria-disabled="false" style="background: rgba(255,87,34,.1);position: relative;overflow: visible;outline: 0;background: var(--brand-primary-light-color);color: var(--brand-primary-color);margin-left: 20px;margin-right: 15px;}">加入購物車</button>
+                                                                        <button type="button" onclick="addPurchase()" class="btn btn-solid-primary btn--l GfiOwy" aria-disabled="false">直接購買</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </form>
+
                                                         <div style="margin-top: 30px; border-top: 1px solid rgba(0, 0, 0, 0.05);"></div>
                                                     </div>
                                                 </div>
@@ -226,7 +255,10 @@
         </div>
     </div>
 </div>
-
+<div id="disappearMsg"></div>
+<script>
+    alertDisappearMsg("test")
+</script>
 
 
 </body>
@@ -251,7 +283,7 @@
     <c:forEach var="tracking" items="${sessionScope.trankings}">
         <span>${tracking}</span>
     </c:forEach>
-    <form action="/cart/addcart" method="post" class="form-horizontal">
+    <form action="/cart/addCart" method="post" class="form-horizontal">
         <input type="hidden" name="account" value=${sessionScope.account}>
         <input type="hidden" name="itemId" value=${product.itemId}>
         <select name="purchaseVolume">

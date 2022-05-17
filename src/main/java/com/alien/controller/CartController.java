@@ -40,7 +40,7 @@ public class CartController {
 
     AccountSession accountSession = new AccountSession();
 
-    @RequestMapping("/addcart")
+    @RequestMapping("/addCart")
     public String addCart(HttpServletRequest request, Cart cart) {
 
 
@@ -49,7 +49,7 @@ public class CartController {
         return "redirect:/product/" + itemId;
     }
 
-    @RequestMapping("/addpurchase")
+    @RequestMapping("/addPurchase")
     public String addPurchase(HttpServletRequest request, Cart cart) {
 
 

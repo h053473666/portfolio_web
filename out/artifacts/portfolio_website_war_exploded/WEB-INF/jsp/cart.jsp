@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 2022/5/7
-  Time: 下午 06:01
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
@@ -17,6 +11,48 @@
     <link rel="stylesheet" data-modern="true" href="/static/css/bundle.985608fa4d1c10176abe.css">
     <style data-modern="true" data-href="/static/css/1540.2f8bafdc9fcc811f0ee0.css"></style>
     <link rel="stylesheet" type="text/css" href="/static/css/8257.5874ac0691e6dfacfa09.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script>
+        function selectAll() {
+            var checkBoxList = document.getElementsByName("indexCarts");
+            var count = 0;
+            for (let i = 0; i < checkBoxList.length; i++) {
+                if (!checkBoxList[i].checked) {
+                    count += 1;
+                    checkBoxList[i].checked = true;
+                }
+            }
+            if (count === 0) {
+                for (let i = 0; i < checkBoxList.length; i++) {
+                    checkBoxList[i].checked = false;
+                }
+            }
+            checkboxOnclick();
+
+        }
+        function checkboxOnclick() {
+            var checkBoxList = document.getElementsByName("indexCarts");
+            var sum = 0;
+            var amount;
+            for (let i = 0; i < ${carts.size()}; i++) {
+                if (checkBoxList[i].checked) {
+                    amount = document.getElementsByName("amount")[i].value;
+                    sum += Number(amount);
+                }
+            }
+            $('#totalAmount').html("$"+sum);
+        }
+
+        function addCartPurchase() {
+            var checkBoxList = document.getElementsByName("indexCarts");
+            for (let i = 0; i < checkBoxList.length; i++) {
+                if (checkBoxList[i].checked) {
+                    document.cartProductForm.action = "${pageContext.request.contextPath}/cart/addCartPurchase";
+                    document.cartProductForm.submit();
+                }
+            }
+        }
+    </script>
 </head>
 <body class="nt-s nl-l">
 
@@ -44,7 +80,7 @@
                                             </c:if>
 
                                             <c:if test="${not empty carts}">
-                                                <form action="/cart/addCartPurchase" method="post">
+                                                <form action="" method="post" name="cartProductForm">
                                                     <div class="_2eZQze">
                                                         <div class="_35gBGg"></div>
                                                         <div class="_2cHnzN">商品</div>
@@ -61,7 +97,7 @@
                                                             <div class="_1glehh">
                                                                 <div class="_1BehlF">
                                                                     <div class="_-0yJ2-">
-                                                                        <input type="checkbox" class="_1Lgvsy" name = "indexCarts" value = "${carts.indexOf(cart)}" >
+                                                                        <input type="checkbox" class="_1Lgvsy" name = "indexCarts" value = "${carts.indexOf(cart)}" onclick="checkboxOnclick()">
 
 
                                                                         <a title="${cart.name}" href="${pageContext.request.contextPath}/product/${cart.itemId}">
@@ -77,6 +113,7 @@
                                                                         <span class="cart_span" style="margin-right: 50px;">${cart.purchaseVolume}</span>
 
 
+                                                                        <input type='hidden' name='amount' value='${cart.purchaseVolume * cart.price}'>
                                                                         <span class="cart_span" style="color: #ee4d2d;margin-right: 40px;">$${cart.purchaseVolume * cart.price}</span>
 
                                                                         <button class="Lur7Ey">刪除</button>
@@ -98,20 +135,20 @@
 
                                                         </div>
                                                         <div class="CsNHbu -Gs_Ma">
-                                                            <button class="_3eoyj7 clear-btn-style">全選</button>
+                                                            <button class="_3eoyj7 clear-btn-style" onclick="selectAll()" type="button">全選</button>
                                                             <div class="_2S5Vpa"></div>
                                                             <div class="_2n5_2u"></div>
                                                             <div class="_3p5aR1">
                                                                 <div class="_2nE2iF">
                                                                     <div class="_2LXtFJ">
-                                                                        <div class="ZxTZV3">$0</div>
+                                                                        <div class="ZxTZV3" id="totalAmount">$0</div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="_1IjfdD">
 
                                                                 </div>
                                                             </div>
-                                                            <button class="shopee-button-solid shopee-button-solid--primary" type="submit"><span class="_3zK-FN">去買單</span></button></div></div>
+                                                            <button class="shopee-button-solid shopee-button-solid--primary" type="button" onclick="addCartPurchase()" ><span class="_3zK-FN">去買單</span></button></div></div>
                                                 </form>
                                             </c:if>
 
