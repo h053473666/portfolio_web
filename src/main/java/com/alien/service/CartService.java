@@ -19,4 +19,10 @@ public interface CartService {
 
     List<Cart> queryPurchase( String account, int limit);
 
+    int deleteCartByItemId(String account, String itemId);
+
+    List<Cart> queryCartByItemId(String account, String itemId);
+
+    int updateCartPurchaseVolume(Cart cart);
+
 }

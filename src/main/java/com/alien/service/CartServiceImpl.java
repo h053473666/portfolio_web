@@ -42,4 +42,19 @@ public class CartServiceImpl implements CartService {
     public List<Cart> queryPurchase(String account, int limit) {
         return cartMapper.queryPurchase(account, limit);
     }
+
+    @Override
+    public int deleteCartByItemId(String account, String itemId) {
+        return cartMapper.deleteCartByItemId(account,itemId);
+    }
+
+    @Override
+    public List<Cart> queryCartByItemId(String account, String itemId) {
+        return cartMapper.queryCartByItemId(account,itemId);
+    }
+
+    @Override
+    public int updateCartPurchaseVolume(Cart cart) {
+        return cartMapper.updateCartPurchaseVolume(cart);
+    }
 }

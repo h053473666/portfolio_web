@@ -19,4 +19,9 @@ public interface CartMapper {
 
     List<Cart> queryPurchase(@Param("account") String account, @Param("limit") int limit);
 
+    int deleteCartByItemId(@Param("account") String account, @Param("itemId") String itemId);
+
+    List<Cart> queryCartByItemId(@Param("account") String account, @Param("itemId") String itemId);
+
+    int updateCartPurchaseVolume(Cart cart);
 }

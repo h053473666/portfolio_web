@@ -49,7 +49,7 @@ public class ProductController {
         //沒這商品ID
         Product product = productService.queryProduct(itemId);
         if (product == null) {
-            return "redirect:/";
+            return "redirect:/notFound";
         }
         model.addAttribute(product);
 

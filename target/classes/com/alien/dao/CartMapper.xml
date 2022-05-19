@@ -45,4 +45,22 @@
         limit #{limit}, 5;
     </select>
 
+    <delete id="deleteCartByItemId">
+        delete
+        from portfolio_website.cart
+        where item_id = #{itemId} and account = #{account};
+    </delete>
+
+    <select id="queryCartByItemId" resultType="Cart">
+        select *
+        from portfolio_website.cart
+        where item_id = #{itemId} and account = #{account};
+    </select>
+
+    <update id="updateCartPurchaseVolume" parameterType="Cart">
+        update portfolio_website.cart
+        set purchase_volume = #{purchaseVolume}
+        where account = #{account} and item_id = #{itemId};
+    </update>
+
 </mapper>

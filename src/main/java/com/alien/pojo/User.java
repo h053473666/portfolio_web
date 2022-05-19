@@ -4,6 +4,7 @@ public class User {
 
     private String account;
     private String password;
+    private String cartVerification;
 
     public User() {
     }
@@ -11,6 +12,12 @@ public class User {
     public User(String account, String password) {
         this.account = account;
         this.password = password;
+    }
+
+    public User(String account, String password, String cartVerification) {
+        this.account = account;
+        this.password = password;
+        this.cartVerification = cartVerification;
     }
 
     public String getAccount() {
@@ -29,5 +36,11 @@ public class User {
         this.password = password;
     }
 
+    public String getCartVerification() {
+        return cartVerification;
+    }
 
+    public void setCartVerification(String cartVerification) {
+        this.cartVerification = cartVerification;
+    }
 }

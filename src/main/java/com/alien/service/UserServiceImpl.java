@@ -30,4 +30,14 @@ public class UserServiceImpl implements UserService{
     public String queryAccount(String account) {
         return userMapper.queryAccount(account);
     }
+
+    @Override
+    public String queryCartVerification(User user) {
+        return userMapper.queryCartVerification(user);
+    }
+
+    @Override
+    public int updateCartVerification(User user) {
+        return userMapper.updateCartVerification(user);
+    }
 }

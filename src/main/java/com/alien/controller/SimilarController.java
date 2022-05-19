@@ -27,13 +27,22 @@ public class SimilarController {
 
     @RequestMapping("/similar/{itemId}/{page}")
     public String similar(@PathVariable("itemId") String itemId,@PathVariable("page") int page, Model model) {
+        if (page > 2 || page<0) {
+            return "redirect:/notFound";
+        }
+
         String category = productService.queryProduct(itemId).getCategory();
         List<Product> similarProducts = similarService.querySimilar(itemId, page,category);
+
+        if (similarProducts.isEmpty()) {
+            return "redirect:/notFound";
+        }
+
         model.addAttribute("similarProducts", similarProducts);
         model.addAttribute("page",page);
         model.addAttribute("itemId",itemId);
-        return "similar";
 
+        return "similar";
     }
 
 

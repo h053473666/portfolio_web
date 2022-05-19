@@ -15,4 +15,26 @@
         where item_id = #{itemId};
     </update>
 
+    <select id="queryProductByItemIdList" resultType="Product">
+        select item_id, name, image, price, category, sales_volume
+        from portfolio_website.product
+        where
+        <foreach collection="itemIdList" item="itemId" open="(" close=")" separator="or">
+            product.item_id = #{itemId}
+        </foreach>
+    </select>
+
+    <update id="updateSalesVolumeByProductList">
+        update portfolio_website.product
+        purchace_volume = case item_id
+
+        <foreach collection="productList">
+            when #{product.itemId} then #{product.salesVolume}
+        </foreach>
+        where
+        <foreach collection="productList" item="product" separator="or">
+            item_id = #{product.itemId}
+        </foreach>
+    </update>
+
 </mapper>

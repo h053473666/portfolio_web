@@ -25,4 +25,16 @@
         from portfolio_website.user
         where account = #{account}
     </select>
+
+    <select id="queryCartverification" parameterType="User">
+        select cart_verification
+        from portfolio_website.user
+        where account = #{account}
+    </select>
+
+    <update id="updateCartVerification" parameterType="User">
+        update portfolio_website.user
+        set cart_verification = #{cartVerification}
+        where account = #{account};
+    </update>
 </mapper>

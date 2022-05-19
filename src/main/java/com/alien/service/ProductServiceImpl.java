@@ -3,6 +3,8 @@ package com.alien.service;
 import com.alien.dao.ProductMapper;
 import com.alien.pojo.Product;
 
+import java.util.List;
+
 public class ProductServiceImpl implements ProductService{
 
     private ProductMapper productMapper;
@@ -19,5 +21,15 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public int updateSalesVolume(String itemId, int salesVolume) {
         return productMapper.updateSalesVolume(itemId,salesVolume);
+    }
+
+    @Override
+    public List<Product> queryProductByItemIdList(List<String> itemIdList) {
+        return productMapper.queryProductByItemIdList(itemIdList);
+    }
+
+    @Override
+    public int updateSalesVolumeByProductList(List<Product> productList) {
+        return productMapper.updateSalesVolumeByProductList(productList);
     }
 }

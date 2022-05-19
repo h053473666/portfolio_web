@@ -13,4 +13,10 @@ public interface UserService {
     int signUp (User user);
 
     String queryAccount(String account);
+
+    String queryCartVerification(User user);
+
+    int updateCartVerification(User user);
+
 }
+

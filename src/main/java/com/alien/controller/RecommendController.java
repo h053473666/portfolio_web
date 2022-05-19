@@ -28,6 +28,9 @@ public class RecommendController {
 
     @RequestMapping("/recommend/{recommendCacheIndex}/{page}")
     public String recommend(HttpServletRequest request,@PathVariable("recommendCacheIndex") String recommendCacheIndex, @PathVariable("page") int page, Model model) {
+        if (page > 2 || page<0) {
+            return "redirect:/notFound";
+        }
 
         if (accountSession.getRecommendCacheIndex(request)==null) {
 

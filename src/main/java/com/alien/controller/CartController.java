@@ -105,8 +105,7 @@ public class CartController {
     }
     @RequestMapping("addCartPurchase")
     public String addCartPurchase(HttpServletRequest request,int[] indexCarts) {
-//        List<Cart> carts = new ArrayList<>();
-//        carts.add(cart);
+
         String account = accountSession.getAccount(request);
         List<Cart> carts = cartService.queryCart(account);
         List<Cart> cartsToPurchase = new ArrayList<>();
