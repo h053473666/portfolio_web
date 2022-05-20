@@ -36,8 +36,6 @@
 </head>
 <body class="nt-s nl-l">
 
-
-
 <div id="main">
     <div>
         <div class="main">

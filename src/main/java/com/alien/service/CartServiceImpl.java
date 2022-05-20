@@ -40,6 +40,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<Cart> queryPurchase(String account, int limit) {
+
         return cartMapper.queryPurchase(account, limit);
     }
 
@@ -56,5 +57,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public int updateCartPurchaseVolume(Cart cart) {
         return cartMapper.updateCartPurchaseVolume(cart);
+    }
+
+    @Override
+    public int queryCartSize(String account) {
+        List<Cart> carts = cartMapper.queryCart(account);
+        return carts.size();
     }
 }

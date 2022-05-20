@@ -31,7 +31,7 @@
                     <c:if test="${sessionScope.account != null}">
 
                         <span><%=session.getAttribute("account")%></span>
-                        <a href="${pageContext.request.contextPath}/" class="_2TLLZP ZUq1cc">購買清單</a>
+                        <a href="${pageContext.request.contextPath}/user/purchase/0" class="_2TLLZP ZUq1cc">購買清單</a>
                         <a href="${pageContext.request.contextPath}/user/password" class="_2TLLZP ZUq1cc">更改密碼</a>
                         <a href="${pageContext.request.contextPath}/user/logout" class="_2TLLZP ZUq1cc">登出</a>
                     </c:if>
@@ -67,7 +67,10 @@
                             <a class="cart-drawer flex v-center" href="${pageContext.request.contextPath}/cart">
                                 <svg viewBox="0 0 26.6 25.6" class="shopee-svg-icon navbar__link-icon icon-shopping-cart-2"><polyline fill="none" points="2 1.7 5.5 1.7 9.6 18.3 21.2 18.3 24.6 6.1 7 6.1" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2.5"></polyline><circle cx="10.7" cy="23" r="2.2" stroke="none"></circle><circle cx="19.7" cy="23" r="2.2" stroke="none"></circle>
                                 </svg>
-                                <%-- cart if判斷  --%>
+                                <c:if test="${sessionScope.cartSize > 0}">
+                                    <div class="shopee-cart-number-badge">${sessionScope.cartSize}</div>
+                                </c:if>
+
                             </a>
                         </div>
                     </div>

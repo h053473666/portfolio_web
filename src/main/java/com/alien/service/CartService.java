@@ -25,4 +25,6 @@ public interface CartService {
 
     int updateCartPurchaseVolume(Cart cart);
 
+    int queryCartSize(String account);
+
 }

@@ -46,6 +46,7 @@ public class CartController {
 
         cartService.addCart(cart.getAccount(), cart.getItemId(),cart.getPurchaseVolume());
         String itemId = cart.getItemId();
+
         return "redirect:/product/" + itemId;
     }
 

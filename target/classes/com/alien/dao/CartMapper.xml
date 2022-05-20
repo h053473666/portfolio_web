@@ -42,7 +42,7 @@
         select purchase.account, product.item_id, product.name, product.image, product.price, product.category, product.sales_volume, purchase.purchase_volume
         from portfolio_website.purchase, portfolio_website.product
         where account = #{account} and product.item_id = purchase.item_id
-        limit #{limit}, 5;
+        limit #{limit}, 16;
     </select>
 
     <delete id="deleteCartByItemId">

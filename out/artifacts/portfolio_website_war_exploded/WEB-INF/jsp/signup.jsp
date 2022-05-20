@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -35,10 +35,13 @@
                                                     <input id="password" class="-wQUjw kpK-3W" type="text" autocomplete="off" name="account" value="">
                                                 </div>
                                             </div>
-                                            <div class="ltFKuQ">
-                                                <div class="op-21F"></div>
-                                                <div class="iqUYOb rH3PQy">密碼長度需為8-16個字母，並且包含一個大寫字母和一個小寫字母。</div>
-                                            </div>
+                                            <C:if test="${accountError != null}">
+                                                <div class="ltFKuQ">
+                                                    <div class="op-21F"></div>
+                                                    <div class="iqUYOb rH3PQy">${accountError}</div>
+                                                </div>
+                                            </C:if>
+
                                         </div>
                                     </div>
                                     <div class="Kuz0mN">
@@ -51,6 +54,12 @@
                                                     <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="">
                                                 </div>
                                             </div>
+                                            <C:if test="${passwordError != null}">
+                                                <div class="ltFKuQ">
+                                                    <div class="op-21F"></div>
+                                                    <div class="iqUYOb rH3PQy">${passwordError}</div>
+                                                </div>
+                                            </C:if>
                                         </div>
                                     </div>
                                     <div class="Kuz0mN">

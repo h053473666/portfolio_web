@@ -78,5 +78,8 @@ public class AccountSession {
         request.getSession().setAttribute("recommendCache", recommendCache);
     }
 
+    public void setCartSize(HttpServletRequest request, int cartSize) {
+        request.getSession().setAttribute("cartSize", cartSize);
+    }
 
 }
