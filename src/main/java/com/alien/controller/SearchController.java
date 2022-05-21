@@ -63,7 +63,7 @@ public class SearchController {
             return "redirect:/notFound";
         }
 
-        if (page < 0 && page >= 100) {
+        if (page < 0 || page >= 100) {
             return "redirect:/notFound";
         }
 
@@ -135,11 +135,12 @@ public class SearchController {
             return "redirect:/notFound";
         }
 
-        if (page < 0 && page >= 100) {
+        if (page < 0 || page >= 100) {
             return "redirect:/notFound";
         }
 
-        Search search = new Search(null,category,databaseOrderBy,orderType,page*60);
+        int objVolume = 60;
+        Search search = new Search(null,category,databaseOrderBy,orderType,page*objVolume);
         List<Product> products = searchService.queryProductBySearch(search);
         if (products.isEmpty()) {
             return "redirect:/notFound";
@@ -153,14 +154,14 @@ public class SearchController {
             model.addAttribute("pageCategory", "page>=5");
         }
 
-        if (products.size() >180) {
-            products = products.subList(0,60);
+        if (products.size() >objVolume*3) {
+            products = products.subList(0,objVolume);
             model.addAttribute("pageRemain", "3");
-        } else if (products.size() <= 180 && products.size() > 120) {
-            products = products.subList(0,60);
+        } else if (products.size() <= objVolume*3 && products.size() > objVolume*2) {
+            products = products.subList(0,objVolume);
             model.addAttribute("pageRemain", "2");
-        } else if (products.size() <= 120 && products.size() > 60) {
-            products = products.subList(0,60);
+        } else if (products.size() <= objVolume*2 && products.size() > objVolume) {
+            products = products.subList(0,objVolume);
             model.addAttribute("pageRemain", "1");
         } else {
             model.addAttribute("pageRemain", "0");

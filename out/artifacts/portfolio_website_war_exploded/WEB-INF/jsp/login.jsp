@@ -32,7 +32,7 @@
                                                     <label class="mlaS58" for="password">帳號</label>
                                                 </div>
                                                 <div class="iqUYOb">
-                                                    <input id="password" class="-wQUjw kpK-3W" type="text" autocomplete="off" name="account" value="">
+                                                    <input id="password" class="-wQUjw kpK-3W" type="text" autocomplete="off" name="account" value="" required >
                                                 </div>
                                             </div>
 
@@ -45,7 +45,7 @@
                                                     <label class="mlaS58" for="newPassword">密碼</label>
                                                 </div>
                                                 <div class="iqUYOb">
-                                                    <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="">
+                                                    <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="" required style="padding: 10px;">
                                                 </div>
                                             </div>
 
@@ -64,7 +64,7 @@
                                         <div class="RlzsL7"></div>
                                         <div class="vuqET4" style="padding-right: 85px;">
                                             <button type="submit" class="btn btn-solid-primary btn--m btn--inline btn-solid-primary" aria-disabled="true">登錄</button>
-                                            <a href="${pageContext.request.contextPath}/user/signup" style="color:#ee4d2d;padding-top: 15px;padding-left: 260px;padding-right: -10;">註冊</a>
+                                            <a href="${pageContext.request.contextPath}/user/signup" style="color:#ee4d2d;padding-top: 15px;margin-left: 260px;padding-right: -10;">註冊</a>
                                         </div>
                                     </div>
                                 </div>

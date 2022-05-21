@@ -51,7 +51,19 @@
                     document.cartProductForm.submit();
                 }
             }
+            disabledButton()
         }
+
+        function deleteCartByItemId() {
+            document.cartProductForm.action = "${pageContext.request.contextPath}/cart/addCartPurchase";
+            document.cartProductForm.submit();
+        }
+
+        function disabledButton() {
+            document.getElementById("mainButton").disabled="disabled"
+        }
+
+
     </script>
 </head>
 <body class="nt-s nl-l">
@@ -116,11 +128,12 @@
                                                                         <input type='hidden' name='amount' value='${cart.purchaseVolume * cart.price}'>
                                                                         <span class="cart_span" style="color: #ee4d2d;margin-right: 40px;">$${cart.purchaseVolume * cart.price}</span>
 
-                                                                        <button class="Lur7Ey">刪除</button>
+                                                                        <button class="Lur7Ey" onclick="window.location.href='${pageContext.request.contextPath}/cart/deleteCart/${cart.itemId}/${cartVerification}'" type="button">刪除</button>
 
-                                                                        <button class="Lur7Ey" style="color: #ee4d2d">
+                                                                        <button class="Lur7Ey" style="color: #ee4d2d" onclick="window.location.href='${pageContext.request.contextPath}/similar/${cart.itemId}/0'" type="button">
                                                                             找相似
                                                                         </button>
+
 
                                                                     </div>
 
@@ -148,7 +161,8 @@
 
                                                                 </div>
                                                             </div>
-                                                            <button class="shopee-button-solid shopee-button-solid--primary" type="button" onclick="addCartPurchase()" ><span class="_3zK-FN">去買單</span></button></div></div>
+                                                            <input type="hidden" name="cartVerification" value="${cartVerification}">
+                                                            <button class="shopee-button-solid shopee-button-solid--primary" type="button" onclick="addCartPurchase()" id="mainButton"><span class="_3zK-FN">去買單</span></button></div></div>
                                                 </form>
                                             </c:if>
 
@@ -229,31 +243,6 @@
 </div>
 
 
-
-</body>
-<body>
-<%--    <form action="/cart/add-cart-purchase" method="post" class="form-horizontal">--%>
-
-<%--        <input type="hidden" name="account" value=${sessionScope.account}>--%>
-<%--        <input type="hidden" name="itemId" value=${carts.get(0).itemId}>--%>
-<%--        <select name="purchaseVolume">--%>
-<%--            <option value=1>1</option>--%>
-<%--            <option value=2>2</option>--%>
-<%--            <option value=3>3</option>--%>
-<%--            <option value=4>4</option>--%>
-<%--            <option value=5>5</option>--%>
-<%--        </select>--%>
-<%--        <input type="submit" value="加到購物車"/>--%>
-<%--    </form>--%>
-    <form action="/cart/addCartPurchase" method="post">--%>
-        <c:forEach var="cart" items="${carts}">
-            <a href="${pageContext.request.contextPath}/product/${cart.itemId}">
-                <img src="https://cf.shopee.tw/file/${cart.image}_tn"></image>
-            </a>
-            <input type = "checkbox" name = "indexCarts" value = "${carts.indexOf(cart)}" />
-        </c:forEach>
-        <input type="submit" value="購買"/>
-    </form>
 
 </body>
 </html>

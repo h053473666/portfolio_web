@@ -14,7 +14,7 @@ public interface UserService {
 
     String queryAccount(String account);
 
-    String queryCartVerification(User user);
+    String queryCartVerification(String account);
 
     int updateCartVerification(User user);
 

@@ -43,7 +43,7 @@
                                                         <label class="mlaS58" for="password">現在的密碼</label>
                                                     </div>
                                                     <div class="iqUYOb">
-                                                        <input id="password" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="">
+                                                        <input id="password" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="" required style="padding: 10px;">
                                                     </div>
                                                 </div>
                                                 <c:if test="${sessionScope.passwordError != null}">
@@ -62,7 +62,7 @@
                                                         <label class="mlaS58" for="newPassword">新的密碼</label>
                                                     </div>
                                                     <div class="iqUYOb">
-                                                        <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="passwordNew" value="">
+                                                        <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="passwordNew" value="" required style="padding: 10px;">
                                                     </div>
                                                 </div>
                                                 <c:if test="${sessionScope.passwordNewError != null}">
@@ -81,7 +81,7 @@
                                                         <label class="mlaS58" for="newPasswordRepeat">確認密碼</label>
                                                     </div>
                                                     <div class="iqUYOb">
-                                                        <input id="newPasswordRepeat" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="passwordNewCheck" value="">
+                                                        <input id="newPasswordRepeat" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="passwordNewCheck" value="" required style="padding: 10px;">
                                                     </div>
                                                 </div>
                                                 <c:if test="${sessionScope.passwordNewCheckError != null}">

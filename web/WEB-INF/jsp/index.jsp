@@ -8,7 +8,18 @@
     <link rel="stylesheet" data-modern="true" href="/static/css/bundle.985608fa4d1c10176abe.css">
     <style data-modern="true" data-href="/static/css/1540.2f8bafdc9fcc811f0ee0.css"></style>
     <link rel="stylesheet" type="text/css" href="/static/css/8257.5874ac0691e6dfacfa09.css">
-
+    <script src="/static/js/jquery.min.js"></script>
+    <link href="/static/css/disappearMsg.css" rel="stylesheet">
+    <script>
+        function alertDisappearMsg(msg) {
+            $('#disappearMsg').html(msg);
+            $('#disappearMsg').show();
+            setTimeout(function () {
+                $('#disappearMsg').html('');
+                $('#disappearMsg').hide();
+            }, 2000);
+        }
+    </script>
 
 
 </head>
@@ -184,7 +195,13 @@
             </div>
         </div>
     </div>
-
+    <c:if test="${sessionScope.cartError != null}">
+        <div id="disappearMsg"></div>
+        <script>
+            alertDisappearMsg("${sessionScope.cartError}")
+        </script>
+        <% request.getSession().removeAttribute("cartError"); %>
+    </c:if>
 
 
 </body>

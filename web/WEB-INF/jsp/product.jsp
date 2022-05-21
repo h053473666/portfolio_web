@@ -35,7 +35,6 @@
 
 </head>
 <body class="nt-s nl-l">
-
 <div id="main">
     <div>
         <div class="main">
@@ -69,7 +68,7 @@
                                                         <div class="VCNVHn"><span>${product.name}</span></div>
                                                         <div class="flex W2tD8-">
                                                             <div class="flex SpMD0A">
-                                                                <div class="_45NQT5">${product.salesVolume}</div>
+                                                                <div class="_45NQT5" style="padding-bottom: 3.5;">${product.salesVolume}</div>
                                                                 <div class="Cv8D6q">已售出</div>
                                                             </div>
                                                         </div>
@@ -253,74 +252,22 @@
         </div>
     </div>
 </div>
-<div id="disappearMsg"></div>
-<script>
-    alertDisappearMsg("test")
-</script>
-${test}
 
+<c:if test="${sessionScope.successAddCart != null}">
+    <div id="disappearMsg"></div>
+    <script>
+        alertDisappearMsg("${sessionScope.successAddCart}")
+    </script>
+    <% request.getSession().removeAttribute("successAddCart"); %>
+</c:if>
 
-</body>
-<body>
-    <p>${product.itemId}</p>
-    <p>${product.name}<p/>
-    <p>${product.price}</p>
-    <p>${product.salesVolume}</p>
-    <p>
-        <image src="https://cf.shopee.tw/file/${product.image}_tn"></image>
-    </p>
-
-    <c:forEach var="similarProduct" items="${similarProducts}">
-        <a href="${pageContext.request.contextPath}/product/${similarProduct.itemId}">
-            <img src="https://cf.shopee.tw/file/${similarProduct.image}_tn"></image>
-        </a>
-    </c:forEach>
-    <p>
-        <a href="${pageContext.request.contextPath}/similar/${product.itemId}/0">相似商品</a>
-    </p>
-
-    <c:forEach var="tracking" items="${sessionScope.trankings}">
-        <span>${tracking}</span>
-    </c:forEach>
-    <form action="/cart/addCart" method="post" class="form-horizontal">
-        <input type="hidden" name="account" value=${sessionScope.account}>
-        <input type="hidden" name="itemId" value=${product.itemId}>
-        <select name="purchaseVolume">
-            <option value=1>1</option>
-            <option value=2>2</option>
-            <option value=3>3</option>
-            <option value=4>4</option>
-            <option value=5>5</option>
-        </select>
-        <input type="submit" value="加到購物車"/>
-
-    </form>
-
-    <form action="/cart/addpurchase" method="post" class="form-horizontal">
-        <input type="hidden" name="account" value=${sessionScope.account}>
-        <input type="hidden" name="itemId" value=${product.itemId}>
-        <select name="purchaseVolume">
-            <option value=1>1</option>
-            <option value=2>2</option>
-            <option value=3>3</option>
-            <option value=4>4</option>
-            <option value=5>5</option>
-        </select>
-        <input type="submit" value="加到購物車"/>
-
-    </form>
-    <c:forEach var="recommend" items="${recommends}">
-        <a href="${pageContext.request.contextPath}/product/${recommend.itemId}">
-            <img src="https://cf.shopee.tw/file/${recommend.image}_tn"></image>
-        </a>
-    </c:forEach>
-    <p>
-        <a href="${pageContext.request.contextPath}/recommend/${recommendCacheIndex}/0">猜你喜歡</a>
-    </p>
-
-
-
-
+<c:if test="${sessionScope.successAddProduct != null}">
+    <div id="disappearMsg"></div>
+    <script>
+        alertDisappearMsg("${sessionScope.successAddProduct}")
+    </script>
+    <% request.getSession().removeAttribute("successAddProduct"); %>
+</c:if>
 
 
 

@@ -26,14 +26,15 @@
 
     <update id="updateSalesVolumeByProductList">
         update portfolio_website.product
-        purchace_volume = case item_id
+        set product.sales_volume = case product.item_id
 
-        <foreach collection="productList">
+        <foreach collection="productList" item="product">
             when #{product.itemId} then #{product.salesVolume}
         </foreach>
+        end
         where
         <foreach collection="productList" item="product" separator="or">
-            item_id = #{product.itemId}
+            product.item_id = #{product.itemId}
         </foreach>
     </update>
 

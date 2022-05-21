@@ -26,7 +26,7 @@
         where account = #{account}
     </select>
 
-    <select id="queryCartverification" parameterType="User">
+    <select id="queryCartVerification" parameterType="string" resultType="string">
         select cart_verification
         from portfolio_website.user
         where account = #{account}

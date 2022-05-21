@@ -7,13 +7,13 @@ public class Cart {
     private String image;
     private int price;
     private String category;
-    private String salesVolume;
+    private int salesVolume;
     private int purchaseVolume;
 
     public Cart() {
     }
 
-    public Cart(String account, String itemId, String name, String image, int price, String category, String salesVolume, int purchaseVolume) {
+    public Cart(String account, String itemId, String name, String image, int price, String category, int salesVolume, int purchaseVolume) {
         this.account = account;
         this.itemId = itemId;
         this.name = name;
@@ -79,11 +79,11 @@ public class Cart {
         this.category = category;
     }
 
-    public String getSalesVolume() {
+    public int getSalesVolume() {
         return salesVolume;
     }
 
-    public void setSalesVolume(String salesVolume) {
+    public void setSalesVolume(int salesVolume) {
         this.salesVolume = salesVolume;
     }
 

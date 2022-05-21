@@ -15,7 +15,7 @@ public interface UserMapper {
 
     String queryAccount(@Param("account") String account);
 
-    String queryCartVerification(User user);
+    String queryCartVerification(@Param("account") String account);
 
     int updateCartVerification(User user);
 }

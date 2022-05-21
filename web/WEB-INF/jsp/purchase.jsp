@@ -168,7 +168,7 @@
                                                     </c:if>
 
                                                     <c:if test="${pageCategory=='page>=5'}">
-                                                        <button class="shopee-icon-button shopee-icon-button--left " onclick="window.location.href='${pageContext.request.contextPath}/user/purchase/${page-1}">
+                                                        <button class="shopee-icon-button shopee-icon-button--left " onclick="window.location.href='${pageContext.request.contextPath}/user/purchase/${page-1}'">
                                                             <svg enable-background="new 0 0 11 11" viewBox="0 0 11 11" x="0" y="0" class="shopee-svg-icon icon-arrow-left"><g><path d="m8.5 11c-.1 0-.2 0-.3-.1l-6-5c-.1-.1-.2-.3-.2-.4s.1-.3.2-.4l6-5c .2-.2.5-.1.7.1s.1.5-.1.7l-5.5 4.6 5.5 4.6c.2.2.2.5.1.7-.1.1-.3.2-.4.2z"></path></g></svg></button>
                                                         <c:if test="${pageRemain=='0'}">
                                                             <button class="shopee-button-no-outline" onclick="window.location.href='${pageContext.request.contextPath}/user/purchase/0'">1</button>

@@ -1,7 +1,6 @@
 package com.alien.controller;
 
 import com.alien.pojo.Cart;
-import com.alien.pojo.Product;
 import com.alien.pojo.User;
 import com.alien.service.CartService;
 import com.alien.service.UserService;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -134,7 +132,7 @@ public class UserController {
         if (!accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
-        return "redirect:/user/password";
+        return "password";
     }
 
     //更改密碼
@@ -169,13 +167,21 @@ public class UserController {
     @RequestMapping("/purchase/{page}")
     public String purchase(HttpServletRequest request, Model model, @PathVariable("page") int page) {
 
+        if (!accountSession.haveAccountSession(request)) {
+            return "redirect:/";
+        }
+
         if (page < 0) {
             return "redirect:/notFound";
         }
 
+        int objVolume = 5;
         String account = accountSession.getAccount(request);
-        List<Cart> carts = cartService.queryPurchase(account, page*5);
+        List<Cart> carts = cartService.queryPurchase(account, page*objVolume);
 
+        if (page!=0 && carts.isEmpty()) {
+            return "redirect:/notFound";
+        }
 
         if (page >= 0 && page < 1) {
             model.addAttribute("pageCategory", "page==0");
@@ -185,14 +191,14 @@ public class UserController {
             model.addAttribute("pageCategory", "page>=5");
         }
 
-        if (carts.size() >15) {
-            carts = carts.subList(0,5);
+        if (carts.size() >objVolume*3) {
+            carts = carts.subList(0,objVolume);
             model.addAttribute("pageRemain", "3");
-        } else if (carts.size() <= 15 && carts.size() > 10) {
-            carts = carts.subList(0,5);
+        } else if (carts.size() <= objVolume*3 && carts.size() > objVolume*2) {
+            carts = carts.subList(0,objVolume);
             model.addAttribute("pageRemain", "2");
-        } else if (carts.size() <= 10 && carts.size() > 5) {
-            carts = carts.subList(0,5);
+        } else if (carts.size() <= objVolume*2 && carts.size() > objVolume) {
+            carts = carts.subList(0,objVolume);
             model.addAttribute("pageRemain", "1");
         } else {
             model.addAttribute("pageRemain", "0");

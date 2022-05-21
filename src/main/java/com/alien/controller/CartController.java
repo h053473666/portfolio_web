@@ -2,21 +2,21 @@ package com.alien.controller;
 
 import com.alien.pojo.Cart;
 import com.alien.pojo.Product;
-import com.alien.service.CartService;
-import com.alien.service.ClickTrackingService;
-import com.alien.service.RecommendService;
+import com.alien.pojo.User;
+import com.alien.service.*;
 import com.alien.utils.AccountSession;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -38,32 +38,88 @@ public class CartController {
     @Qualifier("CartServiceImpl")
     private CartService cartService;
 
+    @Autowired
+    @Qualifier("UserServiceImpl")
+    private UserService userService;
+
+    @Autowired
+    @Qualifier("ProductServiceImpl")
+    private ProductService productService;
+
     AccountSession accountSession = new AccountSession();
 
     @RequestMapping("/addCart")
     public String addCart(HttpServletRequest request, Cart cart) {
+        if (accountSession.getAccount(request) == null) {
+            return "redirect:/user/login";
+        }
 
+        if (cart.getItemId() == null) {
+            return "redirect:/notFound";
+        }
 
-        cartService.addCart(cart.getAccount(), cart.getItemId(),cart.getPurchaseVolume());
+        String account = cart.getAccount();
         String itemId = cart.getItemId();
+        int purchaseVolume = cart.getPurchaseVolume();
+
+
+        List<Cart> carts = cartService.queryCartByItemId(account,itemId);
+
+        if (carts.isEmpty()) {
+            cartService.addCart(account, itemId, purchaseVolume);
+        } else {
+            cart = carts.get(0);
+            cart.setPurchaseVolume(cart.getPurchaseVolume()+purchaseVolume);
+            cartService.updateCartPurchaseVolume(cart);
+        }
+
+        int cartsSize = cartService.queryCartSize(account);
+        accountSession.setCartSize(request,cartsSize);
+
+
+        String cartVerification = RandomStringUtils.randomAlphanumeric(5) + Long.toString(Instant.now().toEpochMilli());
+        User user = new User(account, null, cartVerification);
+        userService.updateCartVerification(user);
+
+        request.getSession().setAttribute("successAddCart", "商品已加入購物車");
 
         return "redirect:/product/" + itemId;
     }
 
     @RequestMapping("/addPurchase")
     public String addPurchase(HttpServletRequest request, Cart cart) {
+        if (accountSession.getAccount(request) == null) {
+            return "redirect:/user/login";
+        }
 
+        if (cart.getItemId() == null) {
+            return "redirect:/notFound";
+        }
 
-        cartService.addPurchase(cart.getAccount(), cart.getItemId(),cart.getPurchaseVolume());
         String itemId = cart.getItemId();
+        Product product = productService.queryProduct(itemId);
+        int salesVolume = cart.getPurchaseVolume()+ product.getSalesVolume();
+
+        productService.updateSalesVolume(itemId,salesVolume);
+        cartService.addPurchase(cart.getAccount(), cart.getItemId(),cart.getPurchaseVolume());
+
+        request.getSession().setAttribute("successAddProduct", "商品購買成功");
+
         return "redirect:/product/" + itemId;
     }
 
     @RequestMapping("")
     public String cart(Model model, HttpServletRequest request) {
+        if (accountSession.getAccount(request) == null) {
+            return "redirect:/user/login";
+        }
+
         String account = accountSession.getAccount(request);
         List<Cart> carts = cartService.queryCart(account);
         model.addAttribute("carts" ,carts);
+
+        String cartVerification = userService.queryCartVerification(account);
+        model.addAttribute("cartVerification" ,cartVerification);
 
         String recommendCacheIndex = accountSession.getRecommendCacheIndex(request);
 
@@ -104,17 +160,71 @@ public class CartController {
         }
 
     }
+
     @RequestMapping("addCartPurchase")
-    public String addCartPurchase(HttpServletRequest request,int[] indexCarts) {
+    public String addCartPurchase(HttpServletRequest request,int[] indexCarts, String cartVerification) {
+        if (accountSession.getAccount(request) == null) {
+            return "redirect:/user/login";
+        }
+
 
         String account = accountSession.getAccount(request);
+        if (!cartVerification.equals(userService.queryCartVerification(account))) {
+            request.getSession().setAttribute("cartError", "購物車頁面已過期 請重新點擊購物車");
+            return "redirect:/";
+        }
+
         List<Cart> carts = cartService.queryCart(account);
         List<Cart> cartsToPurchase = new ArrayList<>();
+        List<String> itemIdList = new ArrayList<>();
+        List<Product> products = new ArrayList<>();
+        String itemId;
+        int salesVolume;
+
         for (int indexCart : indexCarts) {
             cartsToPurchase.add(carts.get(indexCart));
+            salesVolume = carts.get(indexCart).getSalesVolume()+carts.get(indexCart).getPurchaseVolume();
+            itemId = carts.get(indexCart).getItemId();
+            products.add(new Product(itemId,salesVolume));
         }
         cartService.addCartPurchase(cartsToPurchase);
         cartService.deleteCart(cartsToPurchase,account);
+
+        productService.updateSalesVolumeByProductList(products);
+
+        cartVerification = RandomStringUtils.randomAlphanumeric(5) + Long.toString(Instant.now().toEpochMilli());
+        User user = new User(account, null, cartVerification);
+        userService.updateCartVerification(user);
+
+        int cartsSize = cartService.queryCartSize(account);
+        accountSession.setCartSize(request,cartsSize);
+        return "redirect:/cart";
+    }
+
+    @RequestMapping("deleteCart/{itemId}/{cartVerification}")
+    public String deleteCart(HttpServletRequest request,@PathVariable("cartVerification") String cartVerification,@PathVariable("itemId") String itemId) {
+        Product product = productService.queryProduct(itemId);
+
+        if (product == null) {
+            return "redirect:/notFound";
+        }
+
+        String account = accountSession.getAccount(request);
+
+        if (!cartVerification.equals(userService.queryCartVerification(account))) {
+            request.getSession().setAttribute("cartError", "購物車頁面已過期 請重新點擊購物車");
+            return "redirect:/";
+        }
+
+        cartService.deleteCartByItemId(account,itemId);
+
+        cartVerification = RandomStringUtils.randomAlphanumeric(5) + Long.toString(Instant.now().toEpochMilli());
+        User user = new User(account, null, cartVerification);
+        userService.updateCartVerification(user);
+
+        int cartsSize = cartService.queryCartSize(account);
+        accountSession.setCartSize(request,cartsSize);
+
         return "redirect:/cart";
     }
 

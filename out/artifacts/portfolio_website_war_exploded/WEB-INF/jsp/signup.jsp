@@ -32,7 +32,7 @@
                                                     <label class="mlaS58" for="password">帳號</label>
                                                 </div>
                                                 <div class="iqUYOb">
-                                                    <input id="password" class="-wQUjw kpK-3W" type="text" autocomplete="off" name="account" value="">
+                                                    <input id="password" class="-wQUjw kpK-3W" type="text" autocomplete="off" name="account" value="" required>
                                                 </div>
                                             </div>
                                             <C:if test="${sessionScope.accountError != null}">
@@ -52,7 +52,7 @@
                                                     <label class="mlaS58" for="newPassword">密碼</label>
                                                 </div>
                                                 <div class="iqUYOb">
-                                                    <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="">
+                                                    <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="" required style="padding: 10px;">
                                                 </div>
                                             </div>
                                             <C:if test="${sessionScope.passwordError != null}">
