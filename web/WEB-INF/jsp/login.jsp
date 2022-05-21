@@ -48,10 +48,12 @@
                                                     <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="">
                                                 </div>
                                             </div>
-                                            <c:if test="${accountPasswordError != null}">
+
+                                            <c:if test="${sessionScope.accountPasswordError != null}">
                                                 <div class="ltFKuQ">
                                                     <div class="op-21F"></div>
-                                                    <div class="iqUYOb rH3PQy">${accountPasswordError}</div>
+                                                    <div class="iqUYOb rH3PQy">${sessionScope.accountPasswordError}</div>
+                                                    <% request.getSession().removeAttribute("accountPasswordError");%>
                                                 </div>
                                             </c:if>
 

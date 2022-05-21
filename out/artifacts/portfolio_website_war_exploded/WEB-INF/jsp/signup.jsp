@@ -35,11 +35,12 @@
                                                     <input id="password" class="-wQUjw kpK-3W" type="text" autocomplete="off" name="account" value="">
                                                 </div>
                                             </div>
-                                            <C:if test="${accountError != null}">
+                                            <C:if test="${sessionScope.accountError != null}">
                                                 <div class="ltFKuQ">
                                                     <div class="op-21F"></div>
-                                                    <div class="iqUYOb rH3PQy">${accountError}</div>
+                                                    <div class="iqUYOb rH3PQy">${sessionScope.accountError}</div>
                                                 </div>
+                                                <% request.getSession().removeAttribute("accountError"); %>
                                             </C:if>
 
                                         </div>
@@ -54,11 +55,12 @@
                                                     <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="">
                                                 </div>
                                             </div>
-                                            <C:if test="${passwordError != null}">
+                                            <C:if test="${sessionScope.passwordError != null}">
                                                 <div class="ltFKuQ">
                                                     <div class="op-21F"></div>
-                                                    <div class="iqUYOb rH3PQy">${passwordError}</div>
+                                                    <div class="iqUYOb rH3PQy">${sessionScope.passwordError}</div>
                                                 </div>
+                                                <% request.getSession().removeAttribute("passwordError"); %>
                                             </C:if>
                                         </div>
                                     </div>

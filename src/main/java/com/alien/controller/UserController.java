@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -37,7 +38,7 @@ public class UserController {
 
     //登入
     @RequestMapping("/userLogin")
-    public String userLogin(User user, HttpServletRequest request, Model model) {
+    public String userLogin(User user, HttpServletRequest request) {
 
         // 有登入session不能再登入
         if (accountSession.haveAccountSession(request)) {
@@ -56,8 +57,8 @@ public class UserController {
             accountSession.setAccount(request,user.getAccount());
             return "redirect:/";
         } else {
-            model.addAttribute("accountPasswordError", "帳號或密碼錯誤");
-            return "login";
+            request.getSession().setAttribute("accountPasswordError", "帳號或密碼錯誤");
+            return "redirect:/user/login";
         }
 
     }
@@ -65,21 +66,21 @@ public class UserController {
     //註冊
     @Transactional
     @RequestMapping("/userSignup")
-    public String usersignup(User user, HttpServletRequest request, Model model) {
+    public String usersignup(User user, HttpServletRequest request) {
         //登入後不能註冊
         if (accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
 
         if (!user.getAccount().matches("[a-zA-Z0-9]+") || user.getAccount().length()>16) {
-            model.addAttribute("accountError", "帳號格式不正確");
-            return "signup";
+            request.getSession().setAttribute("accountError", "帳號格式不正確");
+            return "redirect:/user/signup";
         } else if (!user.getPassword().matches("[a-zA-Z0-9]+") || user.getPassword().length()>16) {
-            model.addAttribute("passwordError", "密碼格式不正確");
-            return "signup";
+            request.getSession().setAttribute("passwordError", "密碼格式不正確");
+            return "redirect:/user/signup";
         } else if (userService.queryAccount(user.getAccount()) != null) {
-            model.addAttribute("accountError", "這個帳戶已有人使用");
-            return "signup";
+            request.getSession().setAttribute("accountError", "這個帳戶已有人使用");
+            return "redirect:/user/signup";
         }
         userService.signUp(user);
         Enumeration attributeNames = request.getSession().getAttributeNames();
@@ -133,13 +134,12 @@ public class UserController {
         if (!accountSession.haveAccountSession(request)) {
             return "redirect:/";
         }
-
-        return "password";
+        return "redirect:/user/password";
     }
 
     //更改密碼
     @RequestMapping("/updatePassword")
-    public String updatePassword(Model model,HttpServletRequest request, User user, String passwordNew, String passwordNewCheck) {
+    public String updatePassword(HttpServletRequest request, User user, String passwordNew, String passwordNewCheck) {
         //沒登入不能更改密碼
         if (!accountSession.haveAccountSession(request)) {
             return "redirect:/";
@@ -148,19 +148,19 @@ public class UserController {
         user.setAccount(account);
         account = userService.login(user);
         if (account == null){
-            model.addAttribute("passwordError", "密碼錯誤");
-            return "password";
+            request.getSession().setAttribute("passwordError", "密碼錯誤");
+            return "redirect:/user/password";
         } else if (!passwordNew.matches("[a-zA-Z0-9]+") || passwordNew.length()>16) {
-            model.addAttribute("passwordNewError", "密碼格式不正確");
-            return "password";
+            request.getSession().setAttribute("passwordNewError", "密碼格式不正確");
+            return "redirect:/user/password";
         } else if (!passwordNewCheck.equals(passwordNew)) {
-            model.addAttribute("passwordNewCheckError", "輸入的密碼不相同");
-            return "password";
+            request.getSession().setAttribute("passwordNewCheckError", "輸入的密碼不相同");
+            return "redirect:/user/password";
         } else {
             user.setPassword(passwordNew);
             userService.updatePassword(user);
-            model.addAttribute("successUpdatePassword", "更改密碼成功");
-            return "password";
+            request.getSession().setAttribute("successUpdatePassword", "更改密碼成功");
+            return "redirect:/user/password";
         }
 
     }

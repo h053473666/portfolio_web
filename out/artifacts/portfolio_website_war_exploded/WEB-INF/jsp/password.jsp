@@ -46,11 +46,12 @@
                                                         <input id="password" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="password" value="">
                                                     </div>
                                                 </div>
-                                                <c:if test="${passwordError != null}">
+                                                <c:if test="${sessionScope.passwordError != null}">
                                                     <div class="ltFKuQ">
                                                         <div class="op-21F"></div>
-                                                        <div class="iqUYOb rH3PQy">${passwordError}</div>
+                                                        <div class="iqUYOb rH3PQy">${sessionScope.passwordError}</div>
                                                     </div>
+                                                    <% request.getSession().removeAttribute("passwordError"); %>
                                                 </c:if>
                                             </div>
                                         </div>
@@ -64,11 +65,12 @@
                                                         <input id="newPassword" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="passwordNew" value="">
                                                     </div>
                                                 </div>
-                                                <c:if test="${passwordNewError != null}">
+                                                <c:if test="${sessionScope.passwordNewError != null}">
                                                     <div class="ltFKuQ">
                                                         <div class="op-21F"></div>
-                                                        <div class="iqUYOb rH3PQy">${passwordNewError}</div>
+                                                        <div class="iqUYOb rH3PQy">${sessionScope.passwordNewError}</div>
                                                     </div>
+                                                    <% request.getSession().removeAttribute("passwordNewError"); %>
                                                 </c:if>
                                             </div>
                                         </div>
@@ -82,11 +84,12 @@
                                                         <input id="newPasswordRepeat" class="-wQUjw kpK-3W" type="password" autocomplete="off" name="passwordNewCheck" value="">
                                                     </div>
                                                 </div>
-                                                <c:if test="${passwordNewCheckError != null}">
+                                                <c:if test="${sessionScope.passwordNewCheckError != null}">
                                                     <div class="ltFKuQ">
                                                         <div class="op-21F"></div>
-                                                        <div class="iqUYOb rH3PQy">${passwordNewCheckError}</div>
+                                                        <div class="iqUYOb rH3PQy">${sessionScope.passwordNewCheckError}</div>
                                                     </div>
+                                                    <% request.getSession().removeAttribute("passwordNewCheckError"); %>
                                                 </c:if>
                                             </div>
                                         </div>
@@ -111,10 +114,11 @@
 
 
 </body>
-<c:if test="${successUpdatePassword != null}">
+<c:if test="${sessionScope.successUpdatePassword != null}">
     <div id="disappearMsg"></div>
     <script>
-        alertDisappearMsg("${successUpdatePassword}")
+        alertDisappearMsg("${sessionScope.successUpdatePassword}")
     </script>
+    <% request.getSession().removeAttribute("successUpdatePassword"); %>
 </c:if>
 </html>

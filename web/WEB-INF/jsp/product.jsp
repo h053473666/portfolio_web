@@ -257,6 +257,7 @@
 <script>
     alertDisappearMsg("test")
 </script>
+${test}
 
 
 </body>
