@@ -10,7 +10,9 @@
 功能:  
 * 帳號註冊登入  
 * 購物車  
-* 推薦系統
+* 推薦系統  
+
+影片連結:  
 [![web demo](https://user-images.githubusercontent.com/37287974/169712572-9a937986-7016-4a50-86b2-64f61d024dad.png)](https://www.youtube.com/watch?v="It-bzrEcaZ4" "web demo")  
 
 
