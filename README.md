@@ -13,7 +13,7 @@
 * 推薦系統  
 
 影片連結:  
-[![web demo](https://user-images.githubusercontent.com/37287974/169712710-43018496-320c-4fad-8ba5-2f66fa660a2a.PNG)](https://www.youtube.com/watch?v="It-bzrEcaZ4" "web demo")  
+[![web demo](https://user-images.githubusercontent.com/37287974/169712710-43018496-320c-4fad-8ba5-2f66fa660a2a.PNG)](https://www.youtube.com/watch?v=It-bzrEcaZ4 "web demo")  
 
 
 架構
