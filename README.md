@@ -11,9 +11,12 @@
 * 帳號註冊登入  
 * 購物車  
 * 推薦系統
+[![web demo](https://user-images.githubusercontent.com/37287974/169712572-9a937986-7016-4a50-86b2-64f61d024dad.png)](https://www.youtube.com/watch?v="It-bzrEcaZ4" "web demo")  
+
 
 架構
 --
+![網站架構圖](https://user-images.githubusercontent.com/37287974/169712037-768f80de-abaa-4365-afd0-0a905b239fd0.png)  
 
 資料庫架構
 --
