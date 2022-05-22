@@ -50,9 +50,10 @@
                 if (checkBoxList[i].checked) {
                     document.cartProductForm.action = "${pageContext.request.contextPath}/cart/addCartPurchase";
                     document.cartProductForm.submit();
+                    disabledButton()
                 }
             }
-            disabledButton()
+
         }
 
         function deleteCartByItemId() {
