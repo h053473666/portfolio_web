@@ -22,6 +22,8 @@
 
 資料庫架構
 --
+https://github.com/h053473666/portfolio_website/blob/main/sql%E6%9E%B6%E6%A7%8B.htm
+
 
 製作網站流程  
 --
