@@ -11,8 +11,6 @@ public interface ProductMapper {
 
     int updateSalesVolume(@Param("itemId") String itemId,@Param("salesVolume") int salesVolume);
 
-    List<Product> queryProductByItemIdList(@Param("itemIdList") List<String> itemIdList);
-
     int updateSalesVolumeByProductList(@Param("productList") List<Product> productList);
 
 }

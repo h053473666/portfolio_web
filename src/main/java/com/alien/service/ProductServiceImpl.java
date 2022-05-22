@@ -24,11 +24,6 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> queryProductByItemIdList(List<String> itemIdList) {
-        return productMapper.queryProductByItemIdList(itemIdList);
-    }
-
-    @Override
     public int updateSalesVolumeByProductList(List<Product> productList) {
         return productMapper.updateSalesVolumeByProductList(productList);
     }

@@ -52,7 +52,7 @@
                                                             </div>
                                                         </c:if>
                                                         <c:if test="${orderBy != 'sales'}">
-                                                            <div class="shopee-sort-by-options__option" onclick="window.location.href='${pageContext.request.contextPath}/search/${searchName}/sales/asc/0'">
+                                                            <div class="shopee-sort-by-options__option" onclick="window.location.href='${pageContext.request.contextPath}/search/${searchName}/sales/desc/0'">
                                                                 最熱銷
                                                             </div>
                                                         </c:if>

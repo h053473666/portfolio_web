@@ -112,20 +112,23 @@ public class ProductController {
         List<Product> recommends = recommendService.queryRecommend(trackings);
 
         String recommendCacheIndex = accountSession.getRecommendCacheIndex(request);
+
+        //判斷是否有緩存頁面
         if (recommendCacheIndex == null) {
             accountSession.setRecommendCacheIndex(request, "0");
             accountSession.setRecommendCache(request);
             Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
-            //Map<String, List<Product>> recommendCache =new HashMap<>();
             recommendCache.put("0",recommends);
             accountSession.setRecommendCache(request, recommendCache);
         }  else if (recommendCacheIndex.equals("9")) {
+            //只有0~9頁緩存
             accountSession.setRecommendCacheIndex(request, "0");
             recommendCacheIndex = "0";
             Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
             recommendCache.put("0",recommends);
             accountSession.setRecommendCache(request, recommendCache);
-        }   else {
+        }  else {
+            //訪問頁面存入新緩存頁面
             int recommendCacheIndexInt = Integer.parseInt(recommendCacheIndex);
             recommendCacheIndex = (recommendCacheIndexInt + 1) + "";
             accountSession.setRecommendCacheIndex(request, recommendCacheIndex);

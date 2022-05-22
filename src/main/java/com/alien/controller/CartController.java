@@ -77,6 +77,7 @@ public class CartController {
         accountSession.setCartSize(request,cartsSize);
 
 
+        //隨機字母數字加時間戳
         String cartVerification = RandomStringUtils.randomAlphanumeric(5) + Long.toString(Instant.now().toEpochMilli());
         User user = new User(account, null, cartVerification);
         userService.updateCartVerification(user);
@@ -123,18 +124,27 @@ public class CartController {
 
         String recommendCacheIndex = accountSession.getRecommendCacheIndex(request);
 
+        //如果緩存頁面為空
         if (recommendCacheIndex==null) {
             account = accountSession.getAccount(request);
+            //如果有登入
             if (account != null ) {
                 List<String> trackings = clickTrackingService.queryTracking(account);
+                //如果追蹤不為空
                 if (!trackings.isEmpty()) {
+                    //設緩存頁面為0 把推薦寫入session
                     accountSession.setRecommendCacheIndex(request, "0");
                     accountSession.setRecommendCache(request);
                     Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
+                    //資料庫查詢追蹤
+
                     List<Product> recommends = recommendService.queryRecommend(trackings);
                     recommendCache.put("0",recommends);
+
+                    //取10個商品
                     accountSession.setRecommendCache(request, recommendCache);
                     recommends = recommends.subList(0, 10);
+
                     model.addAttribute("recommends", recommends);
                     return "cart";
                 }
@@ -143,6 +153,7 @@ public class CartController {
             accountSession.setRecommendCacheIndex(request, "0");
             accountSession.setRecommendCache(request);
             Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
+            //追蹤為空
             List<Product> recommends = recommendService.queryRecommend(null);
             recommendCache.put("0",recommends);
             accountSession.setRecommendCache(request, recommendCache);
@@ -151,6 +162,7 @@ public class CartController {
             return "cart";
 
         } else {
+            //直接取追蹤緩存頁面的推薦
             Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
             recommendCache.get(recommendCacheIndex);
             List<Product> recommends = recommendCache.get(recommendCacheIndex);
@@ -165,6 +177,9 @@ public class CartController {
     public String addCartPurchase(HttpServletRequest request,int[] indexCarts, String cartVerification) {
         if (accountSession.getAccount(request) == null) {
             return "redirect:/user/login";
+        }
+        if (cartVerification == null) {
+            return "redirect:/notFound";
         }
 
 
@@ -198,11 +213,16 @@ public class CartController {
 
         int cartsSize = cartService.queryCartSize(account);
         accountSession.setCartSize(request,cartsSize);
+
+        request.getSession().setAttribute("successAddCartProduct", "商品購買成功");
         return "redirect:/cart";
     }
 
     @RequestMapping("deleteCart/{itemId}/{cartVerification}")
     public String deleteCart(HttpServletRequest request,@PathVariable("cartVerification") String cartVerification,@PathVariable("itemId") String itemId) {
+        if (accountSession.getAccount(request) == null) {
+            return "redirect:/user/login";
+        }
         Product product = productService.queryProduct(itemId);
 
         if (product == null) {

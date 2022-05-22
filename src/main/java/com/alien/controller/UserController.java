@@ -70,6 +70,10 @@ public class UserController {
             return "redirect:/";
         }
 
+        if (user.getAccount() == null || user.getPassword() == null) {
+            return "redirect:/notFound";
+        }
+
         if (!user.getAccount().matches("[a-zA-Z0-9]+") || user.getAccount().length()>16) {
             request.getSession().setAttribute("accountError", "帳號格式不正確");
             return "redirect:/user/signup";
@@ -175,6 +179,7 @@ public class UserController {
             return "redirect:/notFound";
         }
 
+        //page樣式控制
         int objVolume = 5;
         String account = accountSession.getAccount(request);
         List<Cart> carts = cartService.queryPurchase(account, page*objVolume);

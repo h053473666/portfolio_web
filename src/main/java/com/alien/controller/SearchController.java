@@ -139,6 +139,7 @@ public class SearchController {
             return "redirect:/notFound";
         }
 
+        //page樣式判斷
         int objVolume = 60;
         Search search = new Search(null,category,databaseOrderBy,orderType,page*objVolume);
         List<Product> products = searchService.queryProductBySearch(search);

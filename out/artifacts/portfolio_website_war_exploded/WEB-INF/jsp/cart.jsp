@@ -12,6 +12,7 @@
     <style data-modern="true" data-href="/static/css/1540.2f8bafdc9fcc811f0ee0.css"></style>
     <link rel="stylesheet" type="text/css" href="/static/css/8257.5874ac0691e6dfacfa09.css">
     <script src="/static/js/jquery.min.js"></script>
+    <link href="/static/css/disappearMsg.css" rel="stylesheet">
     <script>
         function selectAll() {
             var checkBoxList = document.getElementsByName("indexCarts");
@@ -63,6 +64,14 @@
             document.getElementById("mainButton").disabled="disabled"
         }
 
+        function alertDisappearMsg(msg) {
+            $('#disappearMsg').html(msg);
+            $('#disappearMsg').show();
+            setTimeout(function () {
+                $('#disappearMsg').html('');
+                $('#disappearMsg').hide();
+            }, 2000);
+        }
 
     </script>
 </head>
@@ -241,7 +250,13 @@
         </div>
     </div>
 </div>
-
+<c:if test="${sessionScope.successAddCartProduct != null}">
+    <div id="disappearMsg"></div>
+    <script>
+        alertDisappearMsg("${sessionScope.successAddCartProduct}")
+    </script>
+    <% request.getSession().removeAttribute("successAddCartProduct"); %>
+</c:if>
 
 
 </body>

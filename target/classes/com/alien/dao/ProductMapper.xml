@@ -15,15 +15,6 @@
         where item_id = #{itemId};
     </update>
 
-    <select id="queryProductByItemIdList" resultType="Product">
-        select item_id, name, image, price, category, sales_volume
-        from portfolio_website.product
-        where
-        <foreach collection="itemIdList" item="itemId" open="(" close=")" separator="or">
-            product.item_id = #{itemId}
-        </foreach>
-    </select>
-
     <update id="updateSalesVolumeByProductList">
         update portfolio_website.product
         set product.sales_volume = case product.item_id

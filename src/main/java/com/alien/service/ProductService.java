@@ -11,8 +11,6 @@ public interface ProductService {
 
     int updateSalesVolume(String itemId,int salesVolume);
 
-    List<Product> queryProductByItemIdList(List<String> itemIdList);
-
     int updateSalesVolumeByProductList(List<Product> productList);
 
 

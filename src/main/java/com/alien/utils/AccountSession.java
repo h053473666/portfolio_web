@@ -3,7 +3,6 @@ package com.alien.utils;
 import com.alien.pojo.Product;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

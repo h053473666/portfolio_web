@@ -18,10 +18,13 @@ public class RecommendServiceImpl implements RecommendService{
     public List<Product> queryRecommend(List<String> trackings) {
         Random rand = new Random(42);
 
+        //如果有追蹤
         if (trackings != null) {
+            //查詢完隨機排列
             List<Product> recommend = recommendMapper.queryRecommend(trackings);
             Collections.shuffle(recommend, rand);
 
+            //總共180 不夠用全部總類前10去補
             if (recommend.size() >= 180) {
 
                 return recommend;
@@ -36,6 +39,7 @@ public class RecommendServiceImpl implements RecommendService{
 
 
         }   else {
+            //如果沒追蹤 直接返回全部前10
             List<Product> queryRank10 = recommendMapper.queryRank10();
             Collections.shuffle(queryRank10, rand);
             return queryRank10;

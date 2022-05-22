@@ -34,19 +34,30 @@ public class IndexController {
     public String index(HttpServletRequest request, Model model) {
         String recommendCacheIndex = accountSession.getRecommendCacheIndex(request);
 
+        //如果緩存頁面為空
         if (recommendCacheIndex==null) {
             String account = accountSession.getAccount(request);
+            //如果有登入
             if (account != null ) {
+
                 List<String> trackings = clickTrackingService.queryTracking(account);
+                //如果追蹤不為空
                 if (!trackings.isEmpty()) {
+                    //設緩存頁面為0
                     accountSession.setRecommendCacheIndex(request, "0");
                     accountSession.setRecommendCache(request);
                     Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
+
+                    //資料庫查詢追蹤
                     List<Product> recommends = recommendService.queryRecommend(trackings);
                     recommendCache.put("0",recommends);
+
+                    //取60個商品
                     accountSession.setRecommendCache(request, recommendCache);
                     recommends = recommends.subList(0, 60);
+
                     model.addAttribute("recommends", recommends);
+
                     return "index";
                 }
 
@@ -54,14 +65,19 @@ public class IndexController {
             accountSession.setRecommendCacheIndex(request, "0");
             accountSession.setRecommendCache(request);
             Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
+            //追蹤為空
             List<Product> recommends = recommendService.queryRecommend(null);
             recommendCache.put("0",recommends);
+
             accountSession.setRecommendCache(request, recommendCache);
+
             recommends = recommends.subList(0, 60);
             model.addAttribute("recommends", recommends);
+
             return "index";
 
         } else {
+            //直接取追蹤緩存頁面的推薦
             Map<String, List<Product>> recommendCache = accountSession.getRecommendCache(request);
             recommendCache.get(recommendCacheIndex);
             List<Product> recommends = recommendCache.get(recommendCacheIndex);
